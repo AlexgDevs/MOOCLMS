@@ -1,3 +1,3 @@
 from server import app 
 
-#uvicorn run_server:app --reolad
+#uvicorn run_server:app --reload
