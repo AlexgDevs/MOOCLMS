@@ -1,11 +1,11 @@
 from typing import List
-from fastapi import APIRouter, status, Response, Depends, Request
+from fastapi import APIRouter, Depends
 from sqlalchemy import select
-from sqlalchemy.orm import selectinload, joinedload
+from sqlalchemy.orm import selectinload
 
-from ..utils import CustomExeptions, JWTConfig
+from ..utils import CustomExeptions
 from ..schemas import UserResponse, DetailUserResponse
-from ..db import db_manager, User, Course, Lesson, Module
+from ..db import db_manager, User
 
 user_app = APIRouter(prefix='/users', tags=['Users'])
 

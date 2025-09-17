@@ -1,6 +1,6 @@
 from asyncio import run
 from server import db_manager
-
+from server.db import Course
 
 async def main():
     await db_manager.up()
