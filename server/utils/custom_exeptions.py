@@ -73,3 +73,11 @@ class CustomExeptions:
             status_code=status.HTTP_403_FORBIDDEN,
             detail='you are already logged in'
         )
+
+
+    @staticmethod
+    async def you_not_admin():
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail='You are not is admin!'
+        )

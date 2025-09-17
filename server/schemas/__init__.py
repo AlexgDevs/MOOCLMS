@@ -2,5 +2,7 @@ from pydantic import BaseModel
 
 from .user import (
     RegisterUser,
-    LoginUser
+    LoginUser,
+    UserResponse,
+    DetailUserResponse
 )
