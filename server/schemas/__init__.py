@@ -7,6 +7,20 @@ from .user import (
     DetailUserResponse
 )
 
-from .course import DetailCourseResponse, CourseResponse, CreateCourse
-from .module import CreateModule
-from .lesson import CreateLesson
+from .course import (
+    DetailCourseResponse, 
+    CourseResponse, 
+    CreateCourse
+)
+
+from .module import (
+    CreateModule,
+    DetailModuleResponse,
+    ModuleResponse
+)
+
+
+from .lesson import (
+    CreateLesson,
+    LessonResponse
+)
