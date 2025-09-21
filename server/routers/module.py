@@ -57,3 +57,23 @@ async def create_module(
 
     session.add(Module(**module_data.model_dump(exclude_unset=True)))
     return {'status': 'module created'}
+
+
+@module_app.delete('/{module_id}',
+                summary='delete module',
+                description='endpoint for deleting module')
+async def delete_module(
+    module_id: int,
+    session = Depends(db_manager.db_session_begin)
+    ):
+
+    module = await session.scalar(
+        select(Module)
+        .where(Module.id == module_id)
+    )
+
+    if not module:
+        await CustomExeptions.module_not_found()
+
+    await session.delete(module)
+    return {'status': 'module deleted'}

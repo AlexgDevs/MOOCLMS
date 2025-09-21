@@ -3,7 +3,7 @@ from . import BaseModel
 
 
 class CreateLesson(BaseModel):
-    title: str
+    name: str
     content: str
     img: str | None = None
     module_id: int
@@ -12,7 +12,7 @@ class CreateLesson(BaseModel):
 
 class LessonResponse(BaseModel):
     id: int
-    title: str
+    name: str
     content: str
     module_id: int
     creator_id: int 

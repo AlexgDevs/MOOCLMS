@@ -21,7 +21,7 @@ async def all_lessons_info(
         select(Lesson)
     )
 
-    return lessons
+    return lessons.all()
 
 
 @lesson_app.post('/',
@@ -54,3 +54,5 @@ async def delete_lesson(
 
     await session.delete(lesson)
     return {'status': 'lesson deleted'}
+
+
