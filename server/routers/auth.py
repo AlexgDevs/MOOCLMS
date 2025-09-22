@@ -88,6 +88,31 @@ async def get_token(
     }
 
 
+@auth_app.get('/refresh',
+            summary='refresh access token',
+            description='endpoint for refreshing access token')
+async def refresh(request: Request, response: Response):
+    refresh_token = await request.cookies.get('refresh_token')
+    if not refresh_token:
+        await CustomExeptions.token_not_found()
+
+    new_access_token = await JWTConfig.refresh_access_token(refresh_token)
+
+    response.set_cookie(
+            key="access_token",
+            value=new_access_token,
+            httponly=True,
+            secure=False,
+            samesite="lax",
+            max_age=3600,
+            path="/",
+        )
+    
+    return {'tokens': {
+            'new_access_token': new_access_token}
+        }
+
+
 @auth_app.delete('/logout',
                 summary='logout',
                 description='enpoint for deleted tokens and logout as system')

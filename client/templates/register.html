@@ -1,0 +1,11 @@
+{% from '__helpers.html' import form_generate %}
+
+<div class="register-container">
+    <h1>Регистрация</h1>
+    <div class="form-group">
+        {{ form_generate(form, '/register') }}
+    </div>
+    <div class="other_links">
+        <span>Есть аккаунт? <strong><a href="{{ url_for('login_page') }}">Войти</a></strong></span>
+    </div>
+</div>
