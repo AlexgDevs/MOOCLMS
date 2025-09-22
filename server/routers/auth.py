@@ -1,4 +1,11 @@
-from fastapi import APIRouter, status, Response, Depends, Request
+from fastapi import (
+    APIRouter, 
+    status, 
+    Response, 
+    Depends, 
+    Request
+)
+
 from passlib.context import CryptContext
 from sqlalchemy import select
 
@@ -118,7 +125,6 @@ async def refresh(request: Request, response: Response):
                 description='enpoint for deleted tokens and logout as system')
 async def logout(
     response: Response,
-    user: dict = Depends(JWTConfig.auth_required),
 ):
     response.delete_cookie(
         key="access_token",

@@ -7,16 +7,20 @@ from flask import (
     Request,
     redirect,
     url_for,
-    make_response,
-    jsonify,
     request,
-    current_app,
     g
 )
 
-from jose import jwt
+from jose import (
+    jwt, 
+    JOSEError, 
+    JWSError
+)
 
-from server.utils.jwt_settings import ALGORITHM, JWT_SECRET
+from . import (
+    ALGORITHM,
+    JWT_SECRET
+)
 
 from .. import API_URL
 
@@ -38,10 +42,11 @@ class AauthClient:
                 except jwt.ExpiredSignatureError:
                     return await AauthClient.try_refresh_token(f, *args, **kwargs)
                 
-                except jwt.InvalidTokenError:
+                except JWSError:
                     pass
             return redirect(url_for('login_page'))
         return decorated
+
 
     @staticmethod
     def guest_required(f):
@@ -61,6 +66,7 @@ class AauthClient:
 
         return decorated
 
+
     @staticmethod
     async def try_refresh_token(f, *args, **kwargs):
         refresh_token = request.cookies.get('refresh_token')
@@ -69,10 +75,8 @@ class AauthClient:
             return redirect(url_for('login_page'))
 
         try:
-            async with ClientSession() as session:
-                async with session.get(
-                    'http://localhost:8000/auth/refresh',
-                ) as response:
+            async with ClientSession(API_URL) as session:
+                async with session.get('/auth/refresh') as response:
 
                     if response.status == 200:
                         data = await response.json()

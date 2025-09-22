@@ -1,0 +1,13 @@
+<div class="logout-container">
+    <span><a href="{{ url_for('home') }}">Назад</a></span>
+    <h1>Выход из аккаунта</h1>
+    <span>Вы уверены что хотите<strong>выйти</strong>из аккаунта?</span>
+    <div class="form-group">
+        <form action="/logout/accept" method="get">
+            <button type="submit">Да</button>
+        </form>
+        <form action="/logout/cancel" method="get">
+            <button type="submit">Нет</button>
+        </form>
+    </div>
+</div>

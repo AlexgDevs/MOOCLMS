@@ -45,3 +45,5 @@ class LoginForm(FlaskForm):
             DataRequired(message='Обязательное поле'),
         ]
     )
+
+    submit = SubmitField('Войти')

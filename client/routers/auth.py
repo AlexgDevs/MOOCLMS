@@ -1,5 +1,12 @@
 from aiohttp import ClientSession
-from flask import make_response, jsonify, flash, redirect, url_for, render_template
+from flask import (
+    make_response,
+    flash, 
+    redirect, 
+    url_for, 
+    render_template, 
+)
+
 from sqlalchemy import select
 from passlib.context import CryptContext
 
@@ -140,13 +147,42 @@ async def login():
     return render_template('login.html', form=form)
 
 
-@app.post('/logout/accept')
+@app.get('/logout/accept')
 @AauthClient.auth_required
 async def logout_accept():
-    pass
+    async with ClientSession(API_URL) as session:
+        async with session.delete('/auth/logout') as response:
+            if response.status == 200:
+                response_obj = redirect(url_for('login_page'))
+
+                response_obj.set_cookie(
+                    'access_token',
+                    value='',
+                    expires=0,
+                    httponly=True,
+                    secure=True,
+                    samesite='Strict',
+                    path='/'
+                )
+
+                response_obj.set_cookie(
+                    'refresh_token',
+                    value='',
+                    expires=0,
+                    httponly=True,
+                    secure=True,
+                    samesite='Strict',
+                    path='/'
+                )
+
+                flash('Вы успешно вышли из аккаунта', 'info')
+                return response_obj
+
+        flash('Не удалось выйти из аккаунта', 'error')
+        return redirect(url_for('home'))
 
 
-@app.post('/logout/cancel')
+@app.get('/logout/cancel')
 @AauthClient.auth_required
 async def logout_cancel():
-    pass
+    return redirect(url_for('home'))

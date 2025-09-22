@@ -5,7 +5,11 @@ from sqlalchemy.orm import selectinload, joinedload
 
 from ..utils import CustomExeptions
 from ..db import db_manager, Course
-from ..schemas import DetailCourseResponse, CourseResponse, CreateCourse
+from ..schemas import (
+    DetailCourseResponse, 
+    CourseResponse, 
+    CreateCourse
+)
 
 course_app = APIRouter(prefix='/courses', tags=['Courses'])
 

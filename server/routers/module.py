@@ -4,7 +4,12 @@ from sqlalchemy import select
 from sqlalchemy.orm import selectinload
 
 from ..db import db_manager, Module
-from ..schemas import CreateModule, DetailModuleResponse, ModuleResponse
+from ..schemas import (
+    CreateModule, 
+    DetailModuleResponse, 
+    ModuleResponse
+)
+
 from ..utils import CustomExeptions
 
 module_app = APIRouter(prefix='/modules', tags=['Modules'])

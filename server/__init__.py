@@ -15,12 +15,11 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5000"],  # Ваш Flask порт
-    allow_credentials=True,  # ОБЯЗАТЕЛЬНО!
+    allow_origins=["http://localhost:5000"],
+    allow_credentials=True,  
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 
 app.include_router(auth_app)
 app.include_router(user_app)
