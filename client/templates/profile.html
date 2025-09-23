@@ -1,0 +1,67 @@
+{% extends '__base.html' %}
+
+{% block content %}
+<div class="container">
+    <header class="profile-header">
+        <h1>{{ user.name }}</h1>
+        <span class="role-badge">{{ user.role }}</span>
+        <span class="user-id">#{{ user.id }}</span>
+    </header>
+
+    <div class="stats-bar">
+        <div class="stat">
+            <strong>{{ user.created_courses|length }}</strong>
+            <span>Курсов</span>
+        </div>
+        <div class="stat">
+            <strong>{{ user.created_modules|length }}</strong>
+            <span>Модулей</span>
+        </div>
+        <div class="stat">
+            <strong>{{ user.created_lessons|length }}</strong>
+            <span>Уроков</span>
+        </div>
+    </div>
+
+    <section class="courses-section">
+        <h2>Мои курсы</h2>
+        {% if user.created_courses %}
+        <div class="courses-grid">
+            {% for course in user.created_courses %}
+            <div class="course-card" onclick="location.href='/courses/{{ course.id }}'">
+                <div class="course-header">
+                    <h3>{{ course.name }}</h3>
+                    <span class="course-id">#{{ course.id }}</span>
+                </div>
+                <p class="course-desc">{{ course.description }}</p>
+                <div class="course-actions">
+                    <a href="/courses/{{ course.id }}/edit" class="btn-edit">Редактировать</a>
+                    <a href="/courses/{{ course.id }}" class="btn-view">Открыть</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <p>Курсов пока нет</p>
+            <a href="/courses/create" class="btn-primary">Создать первый курс</a>
+        </div>
+        {% endif %}
+    </section>
+
+    <div class="quick-links">
+        <a href="/modules/my" class="quick-link">
+            <strong>{{ user.created_modules|length }}</strong>
+            <span>Мои модули</span>
+        </a>
+        <a href="/lessons/my" class="quick-link">
+            <strong>{{ user.created_lessons|length }}</strong>
+            <span>Мои уроки</span>
+        </a>
+        <a href="/teaching" class="quick-link">
+            <strong>+</strong>
+            <span>Создать новый</span>
+        </a>
+    </div>
+</div>
+{% endblock %}

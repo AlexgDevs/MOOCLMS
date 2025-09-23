@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block title %}<title>Main</title>{% endblock %}
+</head>
+<body>
+    {% block styles %}
+        <style></style>
+    {% endblock %}
+    {% block nav %}
+    <a href="/">Главная</a> | 
+    <a href="/courses">Курсы</a> |
+    <a href="/teaching">Преподавание</a> |
+    {% if user %}
+    <a href="/" class="active">Профиль</a> | 
+    <a href="/logout-page">Выйти</a>
+    {% else %}
+    <a href="/login-page">Войти</a>
+    <a href="/register-page">Авторизоваться</a>
+    {% endif %}
+
+{% endblock %}
+    {% block content %}
+    {% endblock %}
+    {% block scripts %}
+    {% endblock %}
+</body>
+</html>

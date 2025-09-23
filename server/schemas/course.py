@@ -14,7 +14,6 @@ class ModuleCoureResponse(BaseModel):
     creator_id: int
     course_id: int
 
-
 class RecordUser(BaseModel):
     id: int
     name: str
