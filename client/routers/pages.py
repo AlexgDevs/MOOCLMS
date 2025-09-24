@@ -34,3 +34,10 @@ async def courses():
                 return render_template('courses.html', courses=courses, user=user)
             flash('Не удалось открыть страницу курсов', 'error')
             return redirect(url_for('home'))
+
+
+@app.get('/courses-teach')
+@AauthClient.auth_required
+async def teach_course():
+    user = AauthClient.get_current_user()
+    return render_template('creating_courses.html', user=user)

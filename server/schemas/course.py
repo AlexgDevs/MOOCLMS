@@ -40,3 +40,4 @@ class CreateCourse(BaseModel):
     name: str
     description: str 
     creator_id: int
+    type: Literal['free', 'premium']
