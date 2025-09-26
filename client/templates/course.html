@@ -1,0 +1,311 @@
+{% extends '__base.html' %}
+
+{% block content %}
+<div class="course-container">
+    <div class="course-sidebar">
+        <div class="sidebar-header">
+            <h3>{{ course.get('name', 'Course') }}</h3>
+            <p class="course-description">{{ course.get('description', '') }}</p>
+        </div>
+        
+        <div class="modules-container">
+            {% if course.get('modules') %}
+                {% for module in course.get('modules') %}
+                <div class="module-section">
+                    <div class="module-header">
+                        <h4>Module {{ loop.index }}: {{ module.get('name', 'Unnamed Module') }}</h4>
+                    </div>
+                    <ul class="lessons-list">
+                        {% if module.get('lessons') %}
+                            {% for lesson in module.get('lessons') %}
+                            <li class="lesson-item {% if selected_lesson and lesson.id == selected_lesson.id %}active{% endif %}" 
+                                data-lesson-id="{{ lesson.id }}">
+                                <a href="{{ url_for('current_course', course_id=course.id, lesson_id=lesson.id) }}"
+                                class="lesson-link">
+                                    <span class="lesson-number">{{ loop.index }}</span>
+                                    <span class="lesson-name">{{ lesson.get('name', 'Unnamed Lesson') }}</span>
+                                </a>
+                            </li>
+                            {% endfor %}
+                        {% else %}
+                            <li class="lesson-item empty">No lessons in this module</li>
+                        {% endif %}
+                    </ul>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="no-modules">No modules available for this course</div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Main lesson content -->
+    <div class="lesson-main">
+        <div class="lesson-header">
+            <h2 id="lesson-title">
+                {% if selected_lesson %}
+                    {{ selected_lesson.get('name', 'Lesson') }}
+                {% else %}
+                    Select a lesson
+                {% endif %}
+            </h2>
+            <div class="lesson-meta">
+                {% if selected_lesson %}
+                    <span class="lesson-progress">Lesson {{ current_lesson_index }} of {{ total_lessons }}</span>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="lesson-content" id="lesson-content">
+            {% if selected_lesson %}
+                {{ selected_lesson.get('content') }}
+            {% else %}
+                <div class="no-lesson-selected">
+                    <p>Please select a lesson from the sidebar to begin learning.</p>
+                </div>
+            {% endif %}
+        </div>
+
+        {% if selected_lesson %}
+        <div class="lesson-navigation">
+            <div class="nav-buttons">
+                {% if prev_lesson %}
+                <a href="{{ url_for('current_course', course_id=course.id, lesson_id=prev_lesson.id) }}" 
+                class="btn btn-secondary" id="prev-lesson">
+                    ← Previous Lesson
+                </a>
+                {% else %}
+                <span class="btn btn-secondary disabled">← Previous Lesson</span>
+                {% endif %}
+
+                {% if next_lesson %}
+                <a href="{{ url_for('current_course', course_id=course.id, lesson_id=next_lesson.id) }}" 
+                class="btn btn-primary" id="next-lesson">
+                    Next Lesson →
+                </a>
+                {% else %}
+                <span class="btn btn-primary disabled">Next Lesson →</span>
+                {% endif %}
+            </div>
+            
+            <div class="completion-section">
+                <button class="btn btn-success" id="mark-complete">
+                    {% if selected_lesson.completed %}✓ Completed{% else %}Mark as Complete{% endif %}
+                </button>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+.course-container {
+    display: flex;
+    min-height: calc(100vh - 100px);
+    gap: 20px;
+}
+
+.course-sidebar {
+    width: 350px;
+    background: #f8f9fa;
+    border-right: 1px solid #dee2e6;
+    height: calc(100vh - 100px);
+    overflow-y: auto;
+    position: sticky;
+    top: 0;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background: white;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.sidebar-header h3 {
+    margin: 0 0 10px 0;
+    color: #2c3e50;
+}
+
+.course-description {
+    color: #6c757d;
+    font-size: 0.9em;
+    margin: 0;
+}
+
+.modules-container {
+    padding: 10px 0;
+}
+
+.module-section {
+    margin-bottom: 15px;
+}
+
+.module-header {
+    padding: 10px 20px;
+    background: #e9ecef;
+    border-left: 4px solid #3498db;
+}
+
+.module-header h4 {
+    margin: 0;
+    font-size: 0.95em;
+    color: #495057;
+}
+
+.lessons-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.lesson-item {
+    border-bottom: 1px solid #f1f1f1;
+}
+
+.lesson-item.active {
+    background: #e3f2fd;
+    border-left: 4px solid #2196f3;
+}
+
+.lesson-link {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    text-decoration: none;
+    color: #495057;
+    transition: background-color 0.2s;
+}
+
+.lesson-link:hover {
+    background: #f8f9fa;
+    text-decoration: none;
+}
+
+.lesson-number {
+    background: #6c757d;
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8em;
+    margin-right: 10px;
+}
+
+.lesson-item.active .lesson-number {
+    background: #2196f3;
+}
+
+.lesson-name {
+    flex: 1;
+    font-size: 0.9em;
+}
+
+.lesson-main {
+    flex: 1;
+    padding: 20px;
+    max-width: calc(100% - 370px);
+}
+
+.lesson-header {
+    border-bottom: 2px solid #e9ecef;
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+}
+
+.lesson-header h2 {
+    margin: 0 0 10px 0;
+    color: #2c3e50;
+}
+
+.lesson-meta {
+    color: #6c757d;
+    font-size: 0.9em;
+}
+
+.lesson-content {
+    min-height: 400px;
+    margin-bottom: 40px;
+}
+
+.lesson-placeholder {
+    background: #f8f9fa;
+    padding: 40px;
+    border-radius: 8px;
+    text-align: center;
+    color: #6c757d;
+}
+
+.no-lesson-selected {
+    text-align: center;
+    padding: 60px 20px;
+    color: #6c757d;
+}
+
+.lesson-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+    border-top: 1px solid #e9ecef;
+}
+
+.nav-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    font-size: 0.9em;
+}
+
+.btn-primary {
+    background: #3498db;
+    color: white;
+}
+
+.btn-secondary {
+    background: #95a5a6;
+    color: white;
+}
+
+.btn-success {
+    background: #27ae60;
+    color: white;
+}
+
+.btn.disabled {
+    background: #bdc3c7;
+    cursor: not-allowed;
+}
+
+.btn:hover:not(.disabled) {
+    opacity: 0.9;
+}
+
+.completion-section {
+    margin-left: auto;
+}
+
+.empty {
+    color: #6c757d;
+    font-style: italic;
+    padding: 12px 20px;
+}
+
+.no-modules {
+    padding: 20px;
+    text-align: center;
+    color: #6c757d;
+}
+</style>
+
+{% endblock %}

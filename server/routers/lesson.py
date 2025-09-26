@@ -24,6 +24,26 @@ async def all_lessons_info(
     return lessons.all()
 
 
+@lesson_app.get('/{lesson_id}',
+                response_model=LessonResponse,
+                summary='get all lesson info',
+                description='endpoin for getting all info by lesson')
+async def all_lesson_info(
+    lesson_id: int,
+    session = Depends(db_manager.db_session)
+    ):
+
+    lesson = await session.scalar(
+        select(Lesson)
+        .where(Lesson.id == lesson_id)
+    )
+
+    if not lesson:
+        await CustomExeptions.lesson_not_found()
+
+    return lesson
+
+
 @lesson_app.post('/',
                 status_code=status.HTTP_201_CREATED,
                 summary='create lesson',

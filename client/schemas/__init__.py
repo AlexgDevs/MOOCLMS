@@ -7,3 +7,7 @@ from .course import (
     CreateFreeCourseForm,
     CreatePremiumCourseForm
 )
+
+from .module import (
+    CreateModuleForm
+)

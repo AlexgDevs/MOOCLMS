@@ -1,5 +1,8 @@
 from pytest import mark
+from faker import Faker
 from .conftest import client_session
+
+faq = Faker()
 
 #200
 @mark.asyncio
@@ -50,3 +53,29 @@ async def test_404_course_output(client_session):
     async with client_session.get(f'/courses/detail/{1489}') as response:
         assert response.status == 404
 
+
+@mark.asyncio
+async def test_create_module(client_session):
+
+    module_data = {
+        'creator_id': 1,
+        'course_id': 1,
+        'name': faq.name()
+    }
+
+    async with client_session.post('/modules', json=module_data) as response:
+        assert response.status == 201
+
+
+@mark.asyncio
+async def test_create_lsson(client_session):
+
+    lesson_data = {
+        'creator_id': 1,
+        'module_id': 1,
+        'name': faq.name(),
+        'content': faq.text(max_nb_chars=255)
+    }
+
+    async with client_session.post('/lessons', json=lesson_data) as response:
+        assert response.status == 201

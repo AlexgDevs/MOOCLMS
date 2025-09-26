@@ -4,7 +4,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import selectinload, joinedload
 
 from ..utils import CustomExeptions
-from ..db import db_manager, Course
+from ..db import db_manager, Course, Lesson, Module
 from ..schemas import (
     DetailCourseResponse, 
     CourseResponse, 
@@ -50,7 +50,7 @@ async def detail_course_info(course_id: int, session=Depends(db_manager.db_sessi
     course = await session.scalar(
         select(Course)
         .options(
-            selectinload(Course.modules),
+            selectinload(Course.modules).selectinload(Module.lessons),
             selectinload(Course.record_users)
         )
         .where(Course.id == course_id)
