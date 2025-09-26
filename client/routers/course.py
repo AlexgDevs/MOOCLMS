@@ -83,14 +83,15 @@ async def create_premium_course():
 @AauthClient.auth_required
 async def current_course(course_id, lesson_id=None):
     async with ClientSession(API_URL) as session:
-        async with session.get(f'/courses/detail/{course_id}') as response:
+        user = AauthClient.get_current_user()
+        async with session.get(f'/courses/detail/{course_id}/{user.get('id')}') as response:
             if response.status == 200:
                 course_data = await response.json()
             else:
-                return "Course not found", 404
+                return render_template('__404.html')
         
         if not course_data:
-            return "Course not found", 404
+            return render_template('__404.html')
 
         all_lessons = []
         for module in course_data.get('modules', []):

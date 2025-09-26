@@ -4,7 +4,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import selectinload, joinedload
 
 from ..utils import CustomExeptions
-from ..db import db_manager, Course, Lesson, Module
+from ..db import db_manager, Course, Lesson, Module, RecordCourse
 from ..schemas import (
     DetailCourseResponse, 
     CourseResponse, 
@@ -42,11 +42,23 @@ async def course_info(course_id: int, session=Depends(db_manager.db_session)):
     return course
 
 
-@course_app.get('/detail/{course_id}',
+@course_app.get('/detail/{course_id}/{user_id}',
                 response_model=DetailCourseResponse,
                 summary='get detail info course',
                 description='endpoint for getting detailing info course')
-async def detail_course_info(course_id: int, session=Depends(db_manager.db_session)):
+async def detail_course_info(
+    course_id: int,
+    user_id: int,
+    session=Depends(db_manager.db_session)):
+
+    # record = await session.scalar(
+    #     select(
+    #         RecordCourse
+    #     )
+    #     .where(RecordCourse.user_id == user_id, RecordCourse.course_id == course_id)
+    # )
+
+    # if record:
     course = await session.scalar(
         select(Course)
         .options(
@@ -58,6 +70,9 @@ async def detail_course_info(course_id: int, session=Depends(db_manager.db_sessi
 
     if not course:
         await CustomExeptions.course_not_found()
+
+    # else:
+    #     await CustomExeptions.course_not_found()
 
     return course
 
@@ -74,16 +89,17 @@ async def create_course(
     return {'status': 'course created'}
 
 
-@course_app.delete('/{course_id}',
+@course_app.delete('/{course_id}/{user_id}',
                 summary='delete course',
                 description='enpoind for deleting course')
 async def delete_course(
     course_id: int,
+    user_id: int,
     session=Depends(db_manager.db_session_begin)):
 
     course = await session.scalar(
         select(Course)
-        .where(Course.id == course_id)
+        .where(Course.id == course_id, Course.creator_id == user_id)
     )
 
     if not course:
