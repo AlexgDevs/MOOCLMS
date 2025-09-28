@@ -1,5 +1,8 @@
 {% from '__helpers.html' import form_generate %}
+{% extends '__base.html' %}
 
-<div class="container">
+{% block content %}
+<div class="form-container">
     {{ form_generate(form=form, action='/courses/create-premium', course_type=course_type) }}
 </div>
+{% endblock %}

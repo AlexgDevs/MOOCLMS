@@ -1,5 +1,7 @@
+{% extends '__base.html' %}
+
 {% macro form_generate(form, action='', user_id=None, course_type=None, course_id=None, module_id=None) %}
-<form action="{{ action }}" method="post" enctype="multipart/form-data">
+<form action="{{ action }}" method="post" enctype="multipart/form-data" class="styled-form">
     {{ form.hidden_tag() }}
     {% if user_id %}
         <input type="hidden" name="user_id" value="{{ user_id }}">
@@ -13,16 +15,25 @@
     {% if module_id %}
         <input type="hidden" name="module_id" value="{{ module_id }}">
     {% endif %}
+    
     {% for field in form if field.widget.input_type != 'hidden' %}
         {% if field.widget.input_type != "submit" %}
-        <div class="field">
-            {{ field.label }} {{ field }}
-        </div> 
+        <div class="form-field">
+            {{ field.label(class="form-label") }}
+            {% if field.widget.input_type == 'textarea' %}
+                {{ field(class="form-textarea") }}
+            {% elif field.widget.input_type == 'select' %}
+                {{ field(class="form-select") }}
+            {% else %}
+                {{ field(class="form-input") }}
+            {% endif %}
+        </div>
         {% else %}
-        <div class="field">
-            {{ field }}
-        </div> 
+        <div class="form-field">
+            {{ field(class="form-submit") }}
+        </div>
         {% endif %}
+        
         {% if field.errors %}
             {% for error in field.errors %}
                 <div class="field_error">

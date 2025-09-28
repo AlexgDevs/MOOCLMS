@@ -98,7 +98,7 @@ async def create_course(
         course_data: CreateCourse,
         session=Depends(db_manager.db_session_begin)):
 
-    session.add(Course(**course_data.model_dump()))
+    session.add(Course(**course_data.model_dump(exclude_unset=True)))
     return {'status': 'course created'}
 
 

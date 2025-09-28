@@ -1,5 +1,10 @@
 {% from '__helpers.html' import form_generate %}
+{% extends '__base.html' %}
 
+{% block nav %}
+{% endblock %}
+
+{% block content %}
 <div class="login-container">
     <h1>Вход</h1>
     <div class="form-group">
@@ -9,3 +14,4 @@
         <span>Нет аккаунта?<strong><a href="{{ url_for('register_page') }}">Зарегестрироваться</a></strong></span>
     </div>
 </div>
+{% endblock %}

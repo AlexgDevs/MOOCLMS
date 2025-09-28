@@ -1,26 +1,316 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% block title %}<title>Main</title>{% endblock %}
+    {% block title %}<title>LearnHub - Платформа обучения</title>{% endblock %}
 </head>
 <body>
     {% block styles %}
-        <style></style>
-    {% endblock %}
-    {% block nav %}
-    <a href="/courses">Курсы</a> |  <!-- это типа страница с рекомендованными курсами  -->
-    <a href="/courses-teach">Преподавание</a> |  <!-- это типа создавать курсы бесплатные или нет развилка страниця -->
-    {% if user %}
-    <a href="/" class="active">Профиль</a> |  <!-- это типа профиль потом ава будет-->
-    <a href="/logout-page">Выйти</a> <!-- это выход из аккаунта -->
-    {% endif %}
+<style>
+:root {
+    --bg-primary: #1A1D21;
+    --bg-secondary: #2D3138;
+    --bg-surface: #25282E;
+    --accent-primary: #4A76CF;
+    --accent-secondary: #5D8DE4;
+    --text-primary: #E8EAED;
+    --text-secondary: #9AA0A6;
+    --text-muted: #6E7680;
+    --border-color: #3E424A;
+    --success-color: #10B981;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
 
+body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.6;
+}
+
+nav {
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border-color);
+    padding: 0 24px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+}
+
+nav a {
+    display: inline-flex;
+    align-items: center;
+    padding: 16px 20px;
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-weight: 500;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    position: relative;
+    border-bottom: 2px solid transparent;
+}
+
+nav a:hover {
+    color: var(--text-primary);
+    background: var(--bg-secondary);
+}
+
+nav a.active {
+    color: var(--accent-primary);
+    border-bottom-color: var(--accent-primary);
+}
+
+nav a::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 20px;
+    right: 20px;
+    height: 2px;
+    background: var(--accent-primary);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+nav a:hover::after {
+    transform: scaleX(1);
+}
+
+nav a.active::after {
+    transform: scaleX(1);
+}
+
+nav a:not(:last-child) {
+    margin-right: 4px;
+}
+
+.content-wrapper {
+    min-height: calc(100vh - 60px);
+    padding: 0;
+}
+
+@media (max-width: 768px) {
+    nav {
+        padding: 0 16px;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+    
+    nav a {
+        padding: 14px 16px;
+        font-size: 13px;
+    }
+    
+    nav::-webkit-scrollbar {
+        display: none;
+    }
+    nav {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+nav {
+    animation: slideIn 0.4s ease;
+}
+
+.loading-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+    z-index: 1001;
+}
+
+.loading {
+    transform: scaleX(0.7);
+}
+
+.register-container, 
+.login-container,
+.form-container {
+    max-width: 400px;
+    margin: 40px auto;
+    padding: 40px;
+    background: var(--bg-surface);
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+    text-align: center;
+}
+
+.register-container h1,
+.login-container h1 {
+    color: var(--text-primary);
+    margin-bottom: 32px;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.styled-form {
+    width: 100%;
+}
+
+.form-field {
+    margin-bottom: 24px;
+    text-align: left;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 14px;
+}
+
+.form-input,
+.form-textarea,
+.form-select {
+    width: 100%;
+    padding: 14px 16px;
+    background: var(--bg-secondary);
+    border: 2px solid var(--border-light);
+    border-radius: 12px;
+    color: var(--text-primary);
+    font-size: 16px;
+    transition: all 0.3s ease;
+    font-family: inherit;
+    box-sizing: border-box;
+}
+
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus {
+    outline: none;
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 3px rgba(74, 118, 207, 0.1);
+    background: var(--bg-card);
+}
+
+.form-textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.form-select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%239AA0A6' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    padding-right: 40px;
+}
+
+.form-submit {
+    width: 100%;
+    background: var(--accent-primary);
+    color: white;
+    border: none;
+    padding: 16px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 16px;
+}
+
+.form-submit:hover {
+    background: var(--accent-secondary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+.field_error {
+    color: #EF4444;
+    font-size: 14px;
+    margin-top: 8px;
+    padding: 8px 12px;
+    background: rgba(239, 68, 68, 0.1);
+    border-radius: 6px;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.other_links {
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border-color);
+}
+
+.other_links a {
+    color: var(--accent-primary);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.other_links a:hover {
+    color: var(--accent-secondary);
+    text-decoration: underline;
+}
+
+
+</style>
 {% endblock %}
-    {% block content %}
+    
+    {% block nav %}
+    <nav>
+        <a href="/courses">🎓 Курсы</a>
+        <a href="/courses-teach">👨‍🏫 Преподавание</a>
+        {% if user %}
+        <a href="/" class="active">👤 Профиль</a>
+        <a href="/logout-page">🚪 Выйти</a>
+        {% endif %}
+    </nav>
     {% endblock %}
+
+    <div class="content-wrapper">
+        {% block content %}
+        {% endblock %}
+    </div>
+
     {% block scripts %}
+    <script>
+        // Индикатор загрузки страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            const loadingBar = document.createElement('div');
+            loadingBar.className = 'loading-bar';
+            document.body.appendChild(loadingBar);
+            
+            // Показать индикатор при клике на ссылку
+            document.querySelectorAll('nav a').forEach(link => {
+                link.addEventListener('click', function() {
+                    loadingBar.classList.add('loading');
+                });
+            });
+            
+            // Скрыть индикатор когда страница загружена
+            window.addEventListener('load', function() {
+                setTimeout(() => {
+                    loadingBar.classList.remove('loading');
+                    setTimeout(() => loadingBar.remove(), 300);
+                }, 500);
+            });
+        });
+    </script>
     {% endblock %}
 </body>
 </html>

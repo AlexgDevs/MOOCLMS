@@ -1,7 +1,8 @@
 from flask import (
     make_response, 
     jsonify, flash, 
-    redirect, 
+    redirect,
+    request, 
     url_for, 
     render_template
 )
@@ -27,11 +28,18 @@ async def home():
 @AauthClient.auth_required
 async def courses():
     user = AauthClient.get_current_user()
+    page = request.args.get('page', 1, type=int)
+    per_page = 18 
+    
     async with ClientSession(API_URL) as session:
-        async with session.get(f'/courses') as response:
+        async with session.get(f'/courses?page={page}&per_page={per_page}') as response:
             if response.status == 200:
                 courses = await response.json()
-                return render_template('courses.html', courses=courses, user=user)
+                
+                return render_template('courses.html', 
+                                    courses=courses, 
+                                    user=user,
+                                    current_page=page,)
             flash('Не удалось открыть страницу курсов', 'error')
             return redirect(url_for('home'))
 

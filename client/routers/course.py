@@ -42,6 +42,7 @@ async def create_free_course():
                 'creator_id': int(user.get('id')),
                 'name': form.name.data,
                 'description': form.description.data,
+                'price': None,
                 'type': 'free'
             }
 
@@ -66,7 +67,8 @@ async def create_premium_course():
                 'creator_id': int(user.get('id')),
                 'name': form.name.data,
                 'description': form.description.data,
-                'type': 'premium'
+                'type': 'premium',
+                'price': int(form.price.data)
             }
 
             async with session.post('/courses', json=course_data) as response:
@@ -153,3 +155,5 @@ async def redact_course(course_id):
                 if user.get('id') == course.get('creator_id'):
                     return render_template('edit_course.html', course=course, user=user)
                 return render_template('__404.html')
+
+

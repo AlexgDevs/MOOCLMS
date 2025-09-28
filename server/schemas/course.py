@@ -5,7 +5,9 @@ class CourseResponse(BaseModel):
     id: int 
     name: str 
     description: str 
-    creator_id: int 
+    creator_id: int
+    price: int
+    type: str
 
 
 class ModuleLessonResponse(BaseModel):
@@ -38,6 +40,7 @@ class DetailCourseResponse(BaseModel):
     type: str 
     modules: List[ModuleCoureResponse]
     record_users: List[RecordsCourse]
+    price: int
 
     class Config:
         from_attributes = True
@@ -47,4 +50,5 @@ class CreateCourse(BaseModel):
     name: str
     description: str 
     creator_id: int
+    price: int | None 
     type: Literal['free', 'premium']
