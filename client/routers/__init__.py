@@ -1,1 +1,1 @@
-from . import auth, pages, course
+from . import auth, pages, course, module, lesson

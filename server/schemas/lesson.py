@@ -6,6 +6,7 @@ class CreateLesson(BaseModel):
     name: str
     content: str
     img: str | None = None
+    lesson_type: str
     module_id: int
     creator_id: int 
 
@@ -13,6 +14,8 @@ class CreateLesson(BaseModel):
 class LessonResponse(BaseModel):
     id: int
     name: str
+    img: str | None 
     content: str
     module_id: int
-    creator_id: int 
+    creator_id: int
+    lesson_type: str 

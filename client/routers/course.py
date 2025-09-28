@@ -118,7 +118,9 @@ async def current_course(course_id, lesson_id=None):
                     if lesson_response.status == 200:
                         lesson_data = await lesson_response.json()
                         lesson_content = lesson_data.get('content')
+                        lesson_photo = lesson_data.get('img')
                         selected_lesson['content'] = lesson_content
+                        selected_lesson['photo'] = lesson_photo
                     else:
                         selected_lesson['content'] = "Content not available"
             
@@ -136,4 +138,18 @@ async def current_course(course_id, lesson_id=None):
                                 next_lesson=next_lesson,
                                 current_lesson_index=current_lesson_index,
                                 total_lessons=len(all_lessons),
-                                lesson_content=lesson_content)
+                                lesson_content=lesson_content,
+                                user=user)
+
+
+@app.get('/course/<course_id>/edit')
+@AauthClient.auth_required
+async def redact_course(course_id):
+    user = AauthClient.get_current_user()
+    async with ClientSession(API_URL) as session:
+        async with session.get(f'/courses/detail/{course_id}/{user.get('id')}') as response:
+            if response.status == 200:
+                course=await response.json()
+                if user.get('id') == course.get('creator_id'):
+                    return render_template('edit_course.html', course=course, user=user)
+                return render_template('__404.html')

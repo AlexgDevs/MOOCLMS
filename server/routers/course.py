@@ -26,15 +26,28 @@ async def all_courses_info(session=Depends(db_manager.db_session)):
     return courses.all()
 
 
-@course_app.get('/{course_id}',
+@course_app.get('/{course_id}/{user_id}',
                 response_model=CourseResponse,
                 summary='get info course',
                 description='endpoint for getting info course')
-async def course_info(course_id: int, session=Depends(db_manager.db_session)):
+async def course_info(course_id: int, user_id: int, session=Depends(db_manager.db_session)):
+
+    # record = await session.scalar(
+    #     select(
+    #         RecordCourse
+    #     )
+    #     .where(RecordCourse.user_id == user_id, RecordCourse.course_id == course_id)
+    # )
+
+    # if record:
+
     course = await session.scalar(
         select(Course)
         .where(Course.id == course_id)
     )
+
+    # else:
+    #     await CustomExeptions.course_not_found()
 
     if not course:
         await CustomExeptions.course_not_found()

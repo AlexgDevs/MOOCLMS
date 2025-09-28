@@ -1,4 +1,4 @@
-{% macro form_generate(form, action='', user_id=None, course_type=None) %}
+{% macro form_generate(form, action='', user_id=None, course_type=None, course_id=None, module_id=None) %}
 <form action="{{ action }}" method="post" enctype="multipart/form-data">
     {{ form.hidden_tag() }}
     {% if user_id %}
@@ -6,6 +6,12 @@
     {% endif %}
     {% if course_type %}
         <input type="hidden" name="course_type" value="{{ course_type }}">
+    {% endif %}
+    {% if course_id %}
+        <input type="hidden" name="course_id" value="{{ course_id }}">
+    {% endif %}
+    {% if module_id %}
+        <input type="hidden" name="module_id" value="{{ module_id }}">
     {% endif %}
     {% for field in form if field.widget.input_type != 'hidden' %}
         {% if field.widget.input_type != "submit" %}

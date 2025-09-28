@@ -11,3 +11,7 @@ from .course import (
 from .module import (
     CreateModuleForm
 )
+
+from .lesson import (
+    CreateLessonForm
+)

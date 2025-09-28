@@ -34,9 +34,10 @@ class DetailCourseResponse(BaseModel):
     id: int 
     name: str 
     description: str 
-    creator_id: int 
+    creator_id: int
+    type: str 
     modules: List[ModuleCoureResponse]
-    record_users: List[RecordUser]
+    record_users: List[RecordsCourse]
 
     class Config:
         from_attributes = True

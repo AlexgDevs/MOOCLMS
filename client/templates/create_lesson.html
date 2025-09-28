@@ -1,0 +1,5 @@
+{% from '__helpers.html' import form_generate %}
+
+<div class="container">
+    {{ form_generate(form=form, action='/create/lesson', module_id=module_id, user_id=user_id, course_id=course_id )}}
+</div>

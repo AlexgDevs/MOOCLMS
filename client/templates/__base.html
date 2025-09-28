@@ -10,14 +10,11 @@
         <style></style>
     {% endblock %}
     {% block nav %}
-    <a href="/courses">Курсы</a> |
-    <a href="/courses-teach">Преподавание</a> |
+    <a href="/courses">Курсы</a> |  <!-- это типа страница с рекомендованными курсами  -->
+    <a href="/courses-teach">Преподавание</a> |  <!-- это типа создавать курсы бесплатные или нет развилка страниця -->
     {% if user %}
-    <a href="/" class="active">Профиль</a> | 
-    <a href="/logout-page">Выйти</a>
-    {% else %}
-    <a href="/login-page">Войти</a>
-    <a href="/register-page">Авторизоваться</a>
+    <a href="/" class="active">Профиль</a> |  <!-- это типа профиль потом ава будет-->
+    <a href="/logout-page">Выйти</a> <!-- это выход из аккаунта -->
     {% endif %}
 
 {% endblock %}

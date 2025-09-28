@@ -20,6 +20,7 @@ class Lesson(Base):
     name: Mapped[str] = mapped_column(String(255))
     content: Mapped[str] = mapped_column(String(8096))
     img: Mapped[str] = mapped_column(nullable=True)
+    lesson_type: Mapped[str]
 
     creator_id: Mapped[int] = mapped_column(ForeignKey('users.id'))
     creator: Mapped['User'] = relationship('User', back_populates='created_lessons', uselist=False) 

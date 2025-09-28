@@ -35,8 +35,8 @@
                 </div>
                 <p class="course-desc">{{ course.description }}</p>
                 <div class="course-actions">
-                    <a href="/courses/{{ course.id }}/edit" class="btn-edit">Редактировать</a>
-                    <a href="/courses/{{ course.id }}" class="btn-view">Открыть</a>
+                    <a href="{{ url_for('redact_course', course_id=course.get('id')) }}" class="btn-edit">Редактировать</a>
+                    <a href="{{ url_for('current_course', course_id=course.get('id')) }}" class="btn-view">Открыть</a>
                 </div>
             </div>
             {% endfor %}

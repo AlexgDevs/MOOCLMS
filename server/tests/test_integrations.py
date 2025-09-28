@@ -58,8 +58,8 @@ async def test_404_course_output(client_session):
 async def test_create_module(client_session):
 
     module_data = {
-        'creator_id': 1,
-        'course_id': 1,
+        'creator_id': 8,
+        'course_id': 3,
         'name': faq.name()
     }
 
@@ -72,7 +72,7 @@ async def test_create_lsson(client_session):
 
     lesson_data = {
         'creator_id': 1,
-        'module_id': 1,
+        'module_id': 2,
         'name': faq.name(),
         'content': faq.text(max_nb_chars=255)
     }

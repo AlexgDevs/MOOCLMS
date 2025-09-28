@@ -38,7 +38,11 @@
             {% endif %}
         </div>
     </div>
-
+    {% if user.get('id') == course.get('creator_id') %}
+    <div class="edit_container">
+        <a href="/course/{{ course.get('id') }}/edit"><strong>Редактировать</strong></a>
+    </div>
+    {% endif %}
     <!-- Main lesson content -->
     <div class="lesson-main">
         <div class="lesson-header">
@@ -59,6 +63,11 @@
         <div class="lesson-content" id="lesson-content">
             {% if selected_lesson %}
                 {{ selected_lesson.get('content') }}
+                <div class="lesson-photo">
+                    {% if selected_lesson.get('photo') %}
+                        <img src="data:image/png;base64,{{ selected_lesson.get('photo') }}" alt="..." width="500px" height="500px" style="flex-direction: column; align-items: center;">
+                    {% endif %}
+                </div>
             {% else %}
                 <div class="no-lesson-selected">
                     <p>Please select a lesson from the sidebar to begin learning.</p>
