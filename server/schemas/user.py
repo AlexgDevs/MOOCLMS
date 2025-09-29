@@ -37,6 +37,23 @@ class UserCreatedLessons(BaseModel):
     creator_id: int
 
 
+class UserRecordCourse(BaseModel):
+    id: int 
+    name: str 
+    description: str 
+    creator_id: int
+    price: int
+    cover_url: str | None 
+    type: str
+
+
+class RecordCourse(BaseModel):
+    course: UserRecordCourse 
+
+    class Config:
+        from_attributes = True
+
+
 class DetailUserResponse(BaseModel):
     id: int
     name: str
@@ -44,6 +61,7 @@ class DetailUserResponse(BaseModel):
     created_courses: List[UserCreatedCourses]
     created_modules: List[UserCreatedModules]
     created_lessons: List[UserCreatedLessons]
+    record_courses: List[RecordCourse]
 
     class Config:
         from_attributes = True

@@ -44,6 +44,7 @@ class AauthClient:
                 
                 except JWSError:
                     pass
+
             return redirect(url_for('login_page'))
         return decorated
 

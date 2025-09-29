@@ -537,7 +537,29 @@
         </div>
         {% endif %}
     </section>
-
+    <section class="my-courses-section courses-section">
+        <h2>Курсы на которые я записан</h2>
+        {% if user.record_courses %}
+        <div class="courses-grid">
+            {% for course in user.record_courses %}
+            <div class="course-card" onclick="location.href='/courses/{{ course.id }}'">
+                <div class="course-header">
+                    <h3>{{ course.course.name }}</h3>
+                    <span class="course-id">#{{ course.course.id }}</span>
+                </div>
+                <p class="course-desc">{{ course.description }}</p>
+                <div class="course-actions">
+                    <a href="{{ url_for('current_course', course_id=course.course.get('id')) }}" class="btn-view">Открыть</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <p>Курсов пока нет</p>
+        </div>
+        {% endif %}
+    </section>
     <div class="quick-links">
         <a href="/modules/my" class="quick-link">
             <strong>{{ user.created_modules|length }}</strong>

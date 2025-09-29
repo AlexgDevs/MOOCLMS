@@ -878,7 +878,7 @@ textarea {
                         <div class="student-info">
                             <span class="student-avatar">👤</span>
                             <div class="student-details">
-                                <span class="student-name">{{ student.get('name', 'Неизвестно') }}</span>
+                                <span class="student-name">{{ student.get('user').get('name') }}</span>
                                 <span class="student-email">{{ student.get('email', '') }}</span>
                             </div>
                         </div>

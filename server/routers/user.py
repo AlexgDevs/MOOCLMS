@@ -5,7 +5,7 @@ from sqlalchemy.orm import selectinload
 
 from ..utils import CustomExeptions
 from ..schemas import UserResponse, DetailUserResponse
-from ..db import db_manager, User
+from ..db import db_manager, User, RecordCourse, Course
 
 user_app = APIRouter(prefix='/users', tags=['Users'])
 
@@ -54,7 +54,8 @@ async def detail_user_info(
         .options(
             selectinload(User.created_courses),
             selectinload(User.created_modules),
-            selectinload(User.created_lessons)
+            selectinload(User.created_lessons),
+            selectinload(User.record_courses).selectinload(RecordCourse.course)
         )
         .where(User.id == user_id)
     )
