@@ -32,7 +32,7 @@ async def courses():
     per_page = 18 
     
     async with ClientSession(API_URL) as session:
-        async with session.get(f'/courses?page={page}&per_page={per_page}') as response:
+        async with session.get(f'/courses/{user.get('id')}/all') as response:
             if response.status == 200:
                 courses = await response.json()
                 

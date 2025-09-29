@@ -43,6 +43,7 @@ async def create_free_course():
                 'name': form.name.data,
                 'description': form.description.data,
                 'price': None,
+                'cover_url': form.cover_url.data,
                 'type': 'free'
             }
 
@@ -68,7 +69,8 @@ async def create_premium_course():
                 'name': form.name.data,
                 'description': form.description.data,
                 'type': 'premium',
-                'price': int(form.price.data)
+                'price': int(form.price.data),
+                'cover_url': form.cover_url.data
             }
 
             async with session.post('/courses', json=course_data) as response:
@@ -157,3 +159,15 @@ async def redact_course(course_id):
                 return render_template('__404.html')
 
 
+@app.get('/courses/enroll/<course_id>')
+@AauthClient.auth_required
+async def enrolled_user(course_id):
+    user = AauthClient.get_current_user()
+    async with ClientSession(API_URL) as session:
+        async with session.post(f'/courses/{course_id}/enroll', json={'user_id': user.get('id')}) as response:
+            if response.status == 201:
+                flash('Вы успешно записаны на курс!', 'info')
+                return redirect(url_for('current_course', course_id=course_id))
+
+        flash('Не удалось записать вас на курс, возможно вы уже записаны', 'error')
+        return redirect(url_for('courses'))

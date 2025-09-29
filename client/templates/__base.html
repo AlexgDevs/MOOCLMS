@@ -284,6 +284,19 @@ nav {
 
     <div class="content-wrapper">
         {% block content %}
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            <div class="flash-modal-overlay">
+                {% for category, message in messages %}
+                <div class="flash-modal flash-{{ category }}">
+                    <div class="flash-content">
+                        {{ message }}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% endwith %}
         {% endblock %}
     </div>
 

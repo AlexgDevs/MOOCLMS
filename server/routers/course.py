@@ -1,5 +1,5 @@
 from typing import List
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends, status, HTTPException, Query
 from sqlalchemy import select
 from sqlalchemy.orm import selectinload, joinedload
 
@@ -8,7 +8,8 @@ from ..db import db_manager, Course, Lesson, Module, RecordCourse
 from ..schemas import (
     DetailCourseResponse, 
     CourseResponse, 
-    CreateCourse
+    CreateCourse,
+    EnrollUser
 )
 
 course_app = APIRouter(prefix='/courses', tags=['Courses'])
@@ -18,11 +19,38 @@ course_app = APIRouter(prefix='/courses', tags=['Courses'])
                 response_model=List[CourseResponse],
                 summary='get all courses info',
                 description='ebpoint for getting all info courses')
-async def all_courses_info(session=Depends(db_manager.db_session)):
+async def all_courses_info(
+    session=Depends(db_manager.db_session)):
     courses = await session.scalars(
         select(Course)
+        .options(
+            selectinload(Course.record_users).selectinload(RecordCourse.user)
+        )
     )
 
+    return courses.all()
+
+
+@course_app.get('/{user_id}/all',
+                response_model=List[CourseResponse],
+                summary='get all courses info',
+                description='endpoint for getting all courses where the current user is not registered')
+async def all_courses_info(
+    user_id: int,
+    session=Depends(db_manager.db_session)):
+    
+    subquery = select(RecordCourse.course_id).where(
+        RecordCourse.user_id == user_id
+    ).scalar_subquery()
+    
+    courses = await session.scalars(
+        select(Course)
+        .options(
+            selectinload(Course.record_users).selectinload(RecordCourse.user)
+        )
+        .where(Course.id.not_in(subquery))
+    )
+    
     return courses.all()
 
 
@@ -55,6 +83,28 @@ async def course_info(course_id: int, user_id: int, session=Depends(db_manager.d
     return course
 
 
+@course_app.post('/{course_id}/enroll',
+                status_code=status.HTTP_201_CREATED)
+async def enroll_on_course(
+    course_id: int, 
+    user: EnrollUser,
+    session = Depends(db_manager.db_session_begin)):
+
+    record = await session.scalar(
+        select(RecordCourse)
+        .where(RecordCourse.course_id == course_id, RecordCourse.user_id == user.user_id)
+    )
+
+    if record:
+        raise HTTPException(
+            status_code=400,
+            detail='enrolled'
+        )
+
+    session.add(RecordCourse(course_id=course_id, user_id=user.user_id))
+    return {'status', 'enrolled'}
+
+
 @course_app.get('/detail/{course_id}/{user_id}',
                 response_model=DetailCourseResponse,
                 summary='get detail info course',
@@ -76,7 +126,7 @@ async def detail_course_info(
         select(Course)
         .options(
             selectinload(Course.modules).selectinload(Module.lessons),
-            selectinload(Course.record_users)
+            selectinload(Course.record_users).selectinload(RecordCourse.user)
         )
         .where(Course.id == course_id)
     )

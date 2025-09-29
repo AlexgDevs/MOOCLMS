@@ -10,7 +10,8 @@ from .user import (
 from .course import (
     DetailCourseResponse, 
     CourseResponse, 
-    CreateCourse
+    CreateCourse,
+    EnrollUser
 )
 
 from .module import (

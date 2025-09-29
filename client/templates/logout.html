@@ -192,6 +192,7 @@
 {% endblock %}
 
 {% block content %}
+{{ super() }}
 <div class="logout-container">
     <span><a href="{{ url_for('home') }}">Назад</a></span>
     <h1>Выход из аккаунта</h1>

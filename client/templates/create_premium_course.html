@@ -2,6 +2,7 @@
 {% extends '__base.html' %}
 
 {% block content %}
+{{ super() }}
 <div class="form-container">
     {{ form_generate(form=form, action='/courses/create-premium', course_type=course_type) }}
 </div>

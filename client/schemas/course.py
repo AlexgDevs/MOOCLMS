@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms.validators import ValidationError, DataRequired, Length, EqualTo, NumberRange
+from wtforms.validators import ValidationError, DataRequired, Length, EqualTo, NumberRange, Optional
 from wtforms import IntegerField, PasswordField, SubmitField, StringField, TextAreaField, validators, IntegerRangeField
 from sqlalchemy import select
 
@@ -23,6 +23,15 @@ class CreateFreeCourseForm(FlaskForm):
         ],
         render_kw={"placeholder": "Введите описание курса", "rows": 4}
     )
+
+
+    cover_url = StringField(
+        'Обложка курса URL',
+        validators=[
+        Optional()
+        ]
+    )
+
 
     submit = SubmitField('Создать бесплатный курс')
 
@@ -52,5 +61,14 @@ class CreatePremiumCourseForm(FlaskForm):
         ],
         render_kw={"placeholder": "Укажите цену в рублях"}
     )
+
+
+    cover_url = StringField(
+        'Обложка курса URL',
+        validators=[
+        Optional()
+        ]
+    )
+
 
     submit = SubmitField('Создать платный курс')
