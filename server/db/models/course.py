@@ -22,6 +22,7 @@ class Course(Base):
     type: Mapped[Literal['free', 'premium']]
     price: Mapped[int] = mapped_column(default=0)
     cover_url: Mapped[str]
+    category: Mapped[str] = mapped_column(default=None, nullable=True)
 
     creator_id: Mapped[int] = mapped_column(ForeignKey('users.id'))
     creator: Mapped['User'] = relationship('User', back_populates='created_courses', uselist=False)

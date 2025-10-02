@@ -9,7 +9,8 @@ from ..schemas import (
     DetailCourseResponse, 
     CourseResponse, 
     CreateCourse,
-    EnrollUser
+    EnrollUser,
+    PatchEditCourse
 )
 
 course_app = APIRouter(prefix='/courses', tags=['Courses'])
@@ -153,6 +154,29 @@ async def create_course(
 
     session.add(Course(**course_data.model_dump(exclude_unset=True)))
     return {'status': 'course created'}
+
+
+@course_app.patch('/{course_id}/{user_id}/edit')
+async def edit_course(course_id: int, user_id: int, update_course: PatchEditCourse, session = Depends(db_manager.db_session_begin)):
+    course = await session.scalar(
+        select(Course)
+        .where(Course.creator_id == user_id, Course.id == course_id)
+    )
+
+    if not course:
+        await CustomExeptions.course_not_found()
+
+    cleaning_update_course = {
+        'name': update_course.name if update_course.name else course.name,
+        'description': update_course.description if update_course.description else course.description,
+        'price': update_course.price if update_course.price else course.price,
+        'cover_url': update_course.cover_url if update_course.cover_url else course.cover_url,
+        'category': update_course.category if update_course.category else course.category,
+        'type': update_course.type if update_course.type else course.type 
+    }
+
+    await session.merge(Course(id=course_id, **cleaning_update_course))
+    return {'status': 'patching'}
 
 
 @course_app.delete('/{course_id}/{user_id}',

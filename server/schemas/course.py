@@ -71,8 +71,18 @@ class CreateCourse(BaseModel):
     description: str
     cover_url: str | None = None 
     creator_id: int
-    price: int | None 
+    category: str | None = None 
+    price: int | None
     type: Literal['free', 'premium']
+
+
+class PatchEditCourse(BaseModel):
+    name: str | None = None 
+    description: str | None = None 
+    cover_url: str | None = None 
+    category: str | None = None 
+    price: int | None = None 
+    type: Literal['free', 'premium'] | None = None 
 
 
 class EnrollUser(BaseModel):

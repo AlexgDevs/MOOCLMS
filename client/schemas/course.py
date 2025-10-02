@@ -24,6 +24,13 @@ class CreateFreeCourseForm(FlaskForm):
         render_kw={"placeholder": "Введите описание курса", "rows": 4}
     )
 
+    category = StringField(
+        'Категория', 
+        validators=[
+            Optional()
+        ],
+        render_kw={"placeholder": "Введите категорию курса. Например: IT"}
+    )
 
     cover_url = StringField(
         'Обложка курса URL',
@@ -51,6 +58,14 @@ class CreatePremiumCourseForm(FlaskForm):
             DataRequired('Обязательное поле')
         ],
         render_kw={"placeholder": "Введите описание курса", "rows": 4}
+    )
+
+    category = StringField(
+        'Категория', 
+        validators=[
+            Optional()
+        ],
+        render_kw={"placeholder": "Введите категорию курса. Например: IT"}
     )
 
     price = IntegerField(  

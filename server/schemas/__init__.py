@@ -12,7 +12,8 @@ from .course import (
     CourseResponse, 
     CreateCourse,
     EnrollUser,
-    OrderResponse
+    OrderResponse,
+    PatchEditCourse
 )
 
 from .module import (

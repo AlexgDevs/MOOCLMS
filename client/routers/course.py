@@ -43,6 +43,7 @@ async def create_free_course():
                 'name': form.name.data,
                 'description': form.description.data,
                 'price': None,
+                'category': form.category if form.category else None,
                 'cover_url': form.cover_url.data,
                 'type': 'free'
             }
@@ -62,14 +63,15 @@ async def create_premium_course():
     form = CreatePremiumCourseForm()
     user = AauthClient.get_current_user()
     if form.validate_on_submit():
+        category = form.category.data if form.category.data else None 
         async with ClientSession(API_URL) as session:
-
             course_data = {
                 'creator_id': int(user.get('id')),
                 'name': form.name.data,
                 'description': form.description.data,
                 'type': 'premium',
                 'price': int(form.price.data),
+                'category': category,
                 'cover_url': form.cover_url.data
             }
 
@@ -157,6 +159,27 @@ async def redact_course(course_id):
                 if user.get('id') == course.get('creator_id'):
                     return render_template('edit_course.html', course=course, user=user)
                 return render_template('__404.html')
+
+
+@app.post('/course/<course_id>/edit')
+@AauthClient.auth_required
+async def edit_course(course_id):
+    user = AauthClient.get_current_user()
+    async with ClientSession(API_URL) as session:
+        new_course_data = {
+            'name': request.form.get('name'),
+            'description': request.form.get('description'),
+            'price': int(request.form.get('price')),
+            'category': request.form.get('category'),
+            'cover_url': request.form.get('cover_url'),
+            'type': request.form.get('type')
+        }
+        async with session.patch(f'/courses/{course_id}/{user.get('id')}/edit', json=new_course_data) as response:
+            if response.status == 200:
+                flash('Данные курса успешно обновленны', 'info')
+                return redirect(url_for('redact_course', course_id=course_id))
+            flash('Не удалось обновить данные курса', 'error')
+            return redirect(url_for('redact_course', course_id=course_id))
 
 
 @app.get('/courses/enroll/<course_id>')
