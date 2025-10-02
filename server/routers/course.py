@@ -6,8 +6,8 @@ from sqlalchemy.orm import selectinload, joinedload
 from ..utils import CustomExeptions
 from ..db import db_manager, Course, Lesson, Module, RecordCourse
 from ..schemas import (
-    DetailCourseResponse, 
-    CourseResponse, 
+    DetailCourseResponse,
+    CourseResponse,
     CreateCourse,
     EnrollUser,
     PatchEditCourse
@@ -21,7 +21,7 @@ course_app = APIRouter(prefix='/courses', tags=['Courses'])
                 summary='get all courses info',
                 description='ebpoint for getting all info courses')
 async def all_courses_info(
-    session=Depends(db_manager.db_session)):
+        session=Depends(db_manager.db_session)):
     courses = await session.scalars(
         select(Course)
         .options(
@@ -37,13 +37,13 @@ async def all_courses_info(
                 summary='get all courses info by user_id',
                 description='endpoint for getting all courses by user where the current user is not registered')
 async def all_courses_info(
-    user_id: int,
-    session=Depends(db_manager.db_session)):
-    
+        user_id: int,
+        session=Depends(db_manager.db_session)):
+
     subquery = select(RecordCourse.course_id).where(
         RecordCourse.user_id == user_id
     ).scalar_subquery()
-    
+
     courses = await session.scalars(
         select(Course)
         .options(
@@ -51,8 +51,28 @@ async def all_courses_info(
         )
         .where(Course.id.not_in(subquery))
     )
-    
+
     return courses.all()
+
+
+@course_app.get('/{course_id}/{user_id}/redact',
+                response_model=CourseResponse,
+                summary='get info course for redact here',
+                description='endpoint for getting info course for edit by user')
+async def redact_course_info(course_id: int, user_id: int, session=Depends(db_manager.db_session)):
+    course = await session.scalar(
+        select(Course)
+        .options(
+            selectinload(Course.record_users).selectinload(
+                RecordCourse.user)
+        )
+        .where(Course.id == course_id, Course.creator_id == user_id)
+    )
+
+    if not course:
+        await CustomExeptions.course_not_found()
+
+    return course
 
 
 @course_app.get('/{course_id}/{user_id}',
@@ -61,38 +81,38 @@ async def all_courses_info(
                 description='endpoint for getting info course')
 async def course_info(course_id: int, user_id: int, session=Depends(db_manager.db_session)):
 
-    # record = await session.scalar(
-    #     select(
-    #         RecordCourse
-    #     )
-    #     .where(RecordCourse.user_id == user_id, RecordCourse.course_id == course_id)
-    # )
-
-    # if record:
-
-    course = await session.scalar(
-        select(Course)
-        .options(
-            selectinload(Course.record_users).selectinload(RecordCourse.user)
+    record = await session.scalar(
+        select(
+            RecordCourse
         )
-        .where(Course.id == course_id)
+        .where(RecordCourse.user_id == user_id, RecordCourse.course_id == course_id)
     )
 
-    # else:
-    #     await CustomExeptions.course_not_found()
+    if not record:
+        course = await session.scalar(
+            select(Course)
+            .options(
+                selectinload(Course.record_users).selectinload(
+                    RecordCourse.user)
+            )
+            .where(Course.id == course_id)
+        )
 
-    if not course:
+        if not course:
+            await CustomExeptions.course_not_found()
+
+        return course
+
+    else:
         await CustomExeptions.course_not_found()
-
-    return course
 
 
 @course_app.post('/{course_id}/enroll',
                 status_code=status.HTTP_201_CREATED)
 async def enroll_on_course(
-    course_id: int, 
-    user: EnrollUser,
-    session = Depends(db_manager.db_session_begin)):
+        course_id: int,
+        user: EnrollUser,
+        session=Depends(db_manager.db_session_begin)):
 
     record = await session.scalar(
         select(RecordCourse)
@@ -105,6 +125,14 @@ async def enroll_on_course(
             detail='enrolled'
         )
 
+    course = await session.scalar(
+        select(Course)
+        .where(Course.id == course_id)
+    )
+
+    if not course or course.type != 'free':
+        await CustomExeptions.course_not_found()
+
     session.add(RecordCourse(course_id=course_id, user_id=user.user_id))
     return {'status', 'enrolled'}
 
@@ -114,34 +142,35 @@ async def enroll_on_course(
                 summary='get detail info course',
                 description='endpoint for getting detailing info course')
 async def detail_course_info(
-    course_id: int,
-    user_id: int,
-    session=Depends(db_manager.db_session)):
+        course_id: int,
+        user_id: int,
+        session=Depends(db_manager.db_session)):
 
-    # record = await session.scalar(
-    #     select(
-    #         RecordCourse
-    #     )
-    #     .where(RecordCourse.user_id == user_id, RecordCourse.course_id == course_id)
-    # )
-
-    # if record:
-    course = await session.scalar(
-        select(Course)
-        .options(
-            selectinload(Course.modules).selectinload(Module.lessons),
-            selectinload(Course.record_users).selectinload(RecordCourse.user)
+    record = await session.scalar(
+        select(
+            RecordCourse
         )
-        .where(Course.id == course_id)
+        .where(RecordCourse.user_id == user_id, RecordCourse.course_id == course_id)
     )
 
-    if not course:
+    if record:
+        course = await session.scalar(
+            select(Course)
+            .options(
+                selectinload(Course.modules).selectinload(Module.lessons),
+                selectinload(Course.record_users).selectinload(
+                    RecordCourse.user)
+            )
+            .where(Course.id == course_id)
+        )
+
+        if not course:
+            await CustomExeptions.course_not_found()
+
+        return course
+
+    else:
         await CustomExeptions.course_not_found()
-
-    # else:
-    #     await CustomExeptions.course_not_found()
-
-    return course
 
 
 @course_app.post('/',
@@ -152,12 +181,16 @@ async def create_course(
         course_data: CreateCourse,
         session=Depends(db_manager.db_session_begin)):
 
-    session.add(Course(**course_data.model_dump(exclude_unset=True)))
+    new_course = Course(**course_data.model_dump(exclude_unset=True))
+    session.add(new_course)
+    await session.flush()
+    session.add(RecordCourse(
+        user_id=new_course.creator_id, course_id=new_course.id))
     return {'status': 'course created'}
 
 
 @course_app.patch('/{course_id}/{user_id}/edit')
-async def edit_course(course_id: int, user_id: int, update_course: PatchEditCourse, session = Depends(db_manager.db_session_begin)):
+async def edit_course(course_id: int, user_id: int, update_course: PatchEditCourse, session=Depends(db_manager.db_session_begin)):
     course = await session.scalar(
         select(Course)
         .where(Course.creator_id == user_id, Course.id == course_id)
@@ -172,7 +205,7 @@ async def edit_course(course_id: int, user_id: int, update_course: PatchEditCour
         'price': update_course.price if update_course.price else course.price,
         'cover_url': update_course.cover_url if update_course.cover_url else course.cover_url,
         'category': update_course.category if update_course.category else course.category,
-        'type': update_course.type if update_course.type else course.type 
+        'type': update_course.type if update_course.type else course.type
     }
 
     await session.merge(Course(id=course_id, **cleaning_update_course))
@@ -183,9 +216,9 @@ async def edit_course(course_id: int, user_id: int, update_course: PatchEditCour
                 summary='delete course',
                 description='enpoind for deleting course')
 async def delete_course(
-    course_id: int,
-    user_id: int,
-    session=Depends(db_manager.db_session_begin)):
+        course_id: int,
+        user_id: int,
+        session=Depends(db_manager.db_session_begin)):
 
     course = await session.scalar(
         select(Course)

@@ -153,12 +153,12 @@ async def current_course(course_id, lesson_id=None):
 async def redact_course(course_id):
     user = AauthClient.get_current_user()
     async with ClientSession(API_URL) as session:
-        async with session.get(f'/courses/detail/{course_id}/{user.get('id')}') as response:
+        async with session.get(f'/courses/{course_id}/{user.get('id')}/redact') as response:
             if response.status == 200:
                 course=await response.json()
-                if user.get('id') == course.get('creator_id'):
-                    return render_template('edit_course.html', course=course, user=user)
-                return render_template('__404.html')
+                return render_template('edit_course.html', course=course, user=user)
+            flash('Не удалось зайти в редактор курса', 'error')
+            return redirect(url_for('home'))
 
 
 @app.post('/course/<course_id>/edit')
@@ -192,7 +192,7 @@ async def enrolled_user(course_id):
                 flash('Вы успешно записаны на курс!', 'info')
                 return redirect(url_for('current_course', course_id=course_id))
 
-        flash('Не удалось записать вас на курс, возможно вы уже записаны', 'error')
+        flash('Не удалось записать вас на курс', 'error')
         return redirect(url_for('courses'))
 
 

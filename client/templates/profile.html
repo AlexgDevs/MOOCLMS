@@ -1,5 +1,9 @@
 {% extends '__base.html' %}
 
+{% block title %}
+<title>MoocLMS - Профиль</title>
+{% endblock %}
+
 {% block styles %}
 {{ super() }}
 <style>
@@ -583,17 +587,17 @@
         {% endif %}
     </section>
     <div class="quick-links">
-        <a href="/modules/my" class="quick-link">
+        <a href="#" class="quick-link">
             <strong>{{ user.created_modules|length }}</strong>
             <span>Мои модули</span>
         </a>
-        <a href="/lessons/my" class="quick-link">
+        <a href="#" class="quick-link">
             <strong>{{ user.created_lessons|length }}</strong>
             <span>Мои уроки</span>
         </a>
         <a href="/courses-teach" class="quick-link">
             <strong>+</strong>
-            <span>Создать новый</span>
+            <span>Создать курс</span>
         </a>
     </div>
 </div>
