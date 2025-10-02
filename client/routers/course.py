@@ -171,3 +171,30 @@ async def enrolled_user(course_id):
 
         flash('Не удалось записать вас на курс, возможно вы уже записаны', 'error')
         return redirect(url_for('courses'))
+
+
+@app.get('/courses/order/<course_id>')
+@AauthClient.auth_required
+async def order_course(course_id):
+    user = AauthClient.get_current_user()
+    async with ClientSession(API_URL) as session:
+        async with session.get(f'/courses/{course_id}/{user.get('id')}') as response:
+            if response.status == 200:
+                return render_template('order_course.html', course=await response.json(), user=user)
+
+            flash('Не удалось перенаправить вас на страницу покупки курса', 'error')
+            return redirect(url_for('courses'))
+
+
+@app.post('/courses/<course_id>/<price>/purchase')
+@AauthClient.auth_required
+async def purchase_course(course_id, price):
+    user = AauthClient.get_current_user()
+    async with ClientSession(API_URL) as session:
+        async with session.post(f'/payments/order/{course_id}/{user.get('id')}', json={'amount': price}) as response:
+            if response.status == 201:
+                flash('Вы успешно купили курс!', 'info')
+                return redirect(url_for('home'))
+            
+            flash('Не удалось купить курс', 'error')
+            return redirect(url_for('courses'))

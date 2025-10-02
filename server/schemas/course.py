@@ -77,3 +77,7 @@ class CreateCourse(BaseModel):
 
 class EnrollUser(BaseModel):
     user_id: int
+
+
+class OrderResponse(BaseModel):
+    amount: int

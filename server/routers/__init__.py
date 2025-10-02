@@ -3,3 +3,4 @@ from .user import user_app
 from .course import course_app
 from .module import module_app
 from .lesson import lesson_app
+from .payment import payment_app

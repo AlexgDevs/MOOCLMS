@@ -6,7 +6,8 @@ from .routers import (
     user_app, 
     course_app, 
     module_app, 
-    lesson_app
+    lesson_app,
+    payment_app
 )
 
 API_URL = 'http://localhost:8000'
@@ -26,6 +27,7 @@ app.include_router(user_app)
 app.include_router(course_app)
 app.include_router(lesson_app)
 app.include_router(module_app)
+app.include_router(payment_app)
 
 
 from .tests import (

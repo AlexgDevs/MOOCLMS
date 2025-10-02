@@ -33,8 +33,8 @@ async def all_courses_info(
 
 @course_app.get('/{user_id}/all',
                 response_model=List[CourseResponse],
-                summary='get all courses info',
-                description='endpoint for getting all courses where the current user is not registered')
+                summary='get all courses info by user_id',
+                description='endpoint for getting all courses by user where the current user is not registered')
 async def all_courses_info(
     user_id: int,
     session=Depends(db_manager.db_session)):
@@ -71,6 +71,9 @@ async def course_info(course_id: int, user_id: int, session=Depends(db_manager.d
 
     course = await session.scalar(
         select(Course)
+        .options(
+            selectinload(Course.record_users).selectinload(RecordCourse.user)
+        )
         .where(Course.id == course_id)
     )
 
