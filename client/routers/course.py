@@ -43,7 +43,7 @@ async def create_free_course():
                 'name': form.name.data,
                 'description': form.description.data,
                 'price': None,
-                'category': form.category if form.category else None,
+                'category': form.category.data if form.category.data else None,
                 'cover_url': form.cover_url.data,
                 'type': 'free'
             }

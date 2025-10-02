@@ -1,11 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms.validators import ValidationError, DataRequired, Length, EqualTo, NumberRange, Optional
-from wtforms import IntegerField, PasswordField, SubmitField, StringField, TextAreaField, validators, IntegerRangeField
-from sqlalchemy import select
+from wtforms.validators import DataRequired, NumberRange, Optional
+from wtforms import IntegerField, SubmitField, StringField, TextAreaField
 
-# нужно кароче создать форму создания курсов
-# модулей 
-# уроков и всякой хуйни еще
 
 class CreateFreeCourseForm(FlaskForm):
     name = StringField(

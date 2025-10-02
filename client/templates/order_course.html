@@ -3,7 +3,12 @@
 {% block content %}
 <div class="purchase-container">
     <div class="purchase-header">
-        <h1>🎓 Оформление покупки</h1>
+        <h1>
+            <svg class="icon icon-xl">
+                <use xlink:href="#icon-courses"></use>
+            </svg>
+            Оформление покупки
+        </h1>
         <p>Вы приобретаете доступ к курсу</p>
     </div>
 
@@ -12,26 +17,32 @@
             <div class="course-card-purchase">
                 {% if course.cover_url %}
                 <div class="course-cover">
-                    <img src="{{ course.cover_url }}" alt="Обложка курса {{ course.name }}" 
+                    <img src="{{ course.cover_url }}" alt="Обложка курса {{ course.name }}"
                         onerror="this.style.display='none'">
                 </div>
                 {% endif %}
-                
+
                 <div class="course-details">
                     <h2>{{ course.name }}</h2>
                     <p class="course-description">{{ course.description }}</p>
-                    
+
                     <div class="course-stats">
                         <div class="stat">
-                            <span class="stat-icon">👥</span>
+                            <svg class="icon">
+                                <use xlink:href="#icon-profile"></use>
+                            </svg>
                             <span class="stat-text">{{ course.record_users|length }} студентов</span>
                         </div>
                         <div class="stat">
-                            <span class="stat-icon">💰</span>
+                            <svg class="icon">
+                                <use xlink:href="#icon-price"></use>
+                            </svg>
                             <span class="stat-text">{{ course.price }} ₽</span>
                         </div>
                         <div class="stat">
-                            <span class="stat-icon">🎯</span>
+                            <svg class="icon">
+                                <use xlink:href="#icon-target"></use>
+                            </svg>
                             <span class="stat-text">{{ course.type }}</span>
                         </div>
                     </div>
@@ -51,8 +62,13 @@
 
         <div class="payment-section">
             <div class="payment-card">
-                <h3>💳 Оплата курса</h3>
-                
+                <h3>
+                    <svg class="icon">
+                        <use xlink:href="#icon-payment"></use>
+                    </svg>
+                    Оплата курса
+                </h3>
+
                 <div class="price-breakdown">
                     <div class="price-row">
                         <span>Стоимость курса:</span>
@@ -72,38 +88,50 @@
                     <h4>Способы оплаты:</h4>
                     <div class="methods-grid">
                         <label class="method-option">
-                            <input type="radio" name="payment_method" value="card" checked>
-                            <span class="method-icon"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" enable-background="new 0 0 512 512" height="20px" id="Layer_1" version="1.1" viewBox="0 0 512 512" width="512px" xml:space="preserve"><g><path d="M510.689,478.854c0,17.561-14.275,31.836-31.836,31.836H33.146c-17.559,0-31.836-14.275-31.836-31.836   V33.146c0-17.56,14.277-31.836,31.836-31.836h445.707c17.561,0,31.836,14.276,31.836,31.836V478.854z" fill="#ED1F24"/></g><path d="M313.475,105.366h-45.648c-44.854,0-82.892,34.142-82.892,100.427  c0,39.765,18.42,69.084,51.25,83.547l-61.262,110.869c-2.005,3.619,0,6.426,3.202,6.426h28.433c2.4,0,4.01-0.801,4.81-2.807  l55.659-108.863h20.021v108.863c0,1.197,1.197,2.807,2.799,2.807h24.832c2.4,0,3.203-1.205,3.203-3.205V109.383  C317.881,106.571,316.279,105.366,313.475,105.366z M287.047,269.26h-16.818c-26.427,0-52.053-19.281-52.053-67.483  c0-50.22,24.024-70.705,48.448-70.705h20.424V269.26z" fill="#FFFFFF" id="path40"/></svg></span>
-                            <span class="method-name">Яндекс деньги</span>
+                            <input type="radio" name="payment_method" value="yoomoney" checked>
+                            <svg class="method-icon">
+                                <use xlink:href="#icon-yoomoney"></use>
+                            </svg>
+                            <span class="method-name">ЮMoney</span>
                         </label>
                     </div>
                 </div>
 
                 <form action="/courses/{{ course.id }}/{{ course.price }}/purchase" method="POST" class="purchase-form">
-                    <input type="hidden" name="payment_method" id="payment_method" value="card">
-                    
+                    <input type="hidden" name="payment_method" id="payment_method" value="yoomoney">
+
                     <div class="agreement">
                         <label class="checkbox-agreement">
                             <input type="checkbox" name="agreement" required>
                             <span class="checkmark"></span>
-                            Я соглашаюсь с <a href="/terms" target="_blank">условиями оказания услуг</a> 
+                            Я соглашаюсь с <a href="/terms" target="_blank">условиями оказания услуг</a>
                             и <a href="/privacy" target="_blank">политикой конфиденциальности</a>
                         </label>
                     </div>
 
                     <button type="submit" class="purchase-btn">
-                        💰 Оплатить {{ course.price }} ₽
+                        <svg class="icon">
+                            <use xlink:href="#icon-success"></use>
+                        </svg>
+                        Оплатить {{ course.price }} ₽
                     </button>
                 </form>
 
                 <div class="security-info">
-                    <span class="security-icon">🔒</span>
+                    <svg class="icon">
+                        <use xlink:href="#icon-security"></use>
+                    </svg>
                     <span>Безопасная оплата через SSL-шифрование</span>
                 </div>
             </div>
 
             <div class="guarantees">
-                <h4>✅ Что вы получаете:</h4>
+                <h4>
+                    <svg class="icon">
+                        <use xlink:href="#icon-success"></use>
+                    </svg>
+                    Что вы получаете:
+                </h4>
                 <ul class="benefits-list">
                     <li>Пожизненный доступ к курсу</li>
                 </ul>
@@ -116,463 +144,457 @@
 {% block styles %}
 {{ super() }}
 <style>
-.purchase-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 32px 24px;
-    background: var(--bg-primary);
-    min-height: 100vh;
-}
+    .purchase-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 32px 24px;
+        background: var(--bg-primary);
+        min-height: 100vh;
+    }
 
-.purchase-header {
-    text-align: center;
-    margin-bottom: 48px;
-    padding: 32px;
-    background: var(--bg-surface);
-    border-radius: 20px;
-    border: 1px solid var(--border-color);
-}
+    .purchase-header {
+        text-align: center;
+        margin-bottom: 48px;
+        padding: 32px;
+        background: var(--bg-surface);
+        border-radius: 20px;
+        border: 1px solid var(--border-color);
+    }
 
-.purchase-header h1 {
-    font-size: 36px;
-    font-weight: 800;
-    margin: 0 0 12px 0;
-    color: var(--text-primary);
-}
+    .purchase-header h1 {
+        font-size: 36px;
+        font-weight: 800;
+        margin: 0 0 12px 0;
+        color: var(--text-primary);
+    }
 
-.purchase-header p {
-    font-size: 18px;
-    color: var(--text-secondary);
-    margin: 0;
-}
+    .purchase-header p {
+        font-size: 18px;
+        color: var(--text-secondary);
+        margin: 0;
+    }
 
-.purchase-layout {
-    display: grid;
-    grid-template-columns: 1fr 400px;
-    gap: 32px;
-    align-items: start;
-}
-
-/* Информация о курсе */
-.course-info-section {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-}
-
-.course-card-purchase {
-    background: var(--bg-surface);
-    border: 1px solid var(--border-color);
-    border-radius: 16px;
-    overflow: hidden;
-    transition: all 0.3s ease;
-}
-
-.course-card-purchase:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-hover);
-}
-
-.course-cover {
-    height: 200px;
-    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-}
-
-.course-cover img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.course-cover:not(:has(img))::before {
-    content: '📚';
-    font-size: 64px;
-    opacity: 0.8;
-}
-
-.course-details {
-    padding: 24px;
-}
-
-.course-details h2 {
-    font-size: 24px;
-    font-weight: 700;
-    margin: 0 0 12px 0;
-    color: var(--text-primary);
-}
-
-.course-description {
-    color: var(--text-secondary);
-    line-height: 1.6;
-    margin: 0 0 20px 0;
-}
-
-.course-stats {
-    display: flex;
-    gap: 20px;
-}
-
-.stat {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: var(--text-muted);
-    font-size: 14px;
-}
-
-.stat-icon {
-    font-size: 16px;
-}
-
-/* Информация о пользователе */
-.user-info {
-    background: var(--bg-surface);
-    border: 1px solid var(--border-color);
-    border-radius: 16px;
-    padding: 24px;
-}
-
-.user-info h3 {
-    font-size: 18px;
-    font-weight: 600;
-    margin: 0 0 16px 0;
-    color: var(--text-primary);
-}
-
-.user-details {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-}
-
-.user-avatar {
-    width: 50px;
-    height: 50px;
-    background: var(--accent-primary);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-}
-
-.user-data {
-    display: flex;
-    flex-direction: column;
-}
-
-.user-data strong {
-    color: var(--text-primary);
-    font-size: 16px;
-}
-
-.user-data span {
-    color: var(--text-muted);
-    font-size: 14px;
-}
-
-/* Блок оплаты */
-.payment-section {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    position: sticky;
-    top: 32px;
-}
-
-.payment-card {
-    background: var(--bg-surface);
-    border: 1px solid var(--border-color);
-    border-radius: 16px;
-    padding: 32px;
-}
-
-.payment-card h3 {
-    font-size: 20px;
-    font-weight: 700;
-    margin: 0 0 24px 0;
-    color: var(--text-primary);
-}
-
-.price-breakdown {
-    margin-bottom: 24px;
-}
-
-.price-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 0;
-    border-bottom: 1px solid var(--border-light);
-    color: var(--text-primary);
-}
-
-.price-row.total {
-    border-bottom: none;
-    border-top: 2px solid var(--accent-primary);
-    margin-top: 8px;
-    padding-top: 16px;
-    font-weight: 700;
-}
-
-.total-price {
-    color: var(--accent-primary);
-    font-size: 18px;
-    font-weight: 800;
-}
-
-/* Методы оплаты */
-.payment-methods {
-    margin-bottom: 24px;
-}
-
-.payment-methods h4 {
-    font-size: 16px;
-    font-weight: 600;
-    margin: 0 0 16px 0;
-    color: var(--text-primary);
-}
-
-.methods-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.method-option {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 16px;
-    border: 2px solid var(--border-light);
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.method-option:hover {
-    border-color: var(--accent-primary);
-    background: var(--bg-secondary);
-}
-
-.method-option input[type="radio"] {
-    margin: 0;
-}
-
-.method-option input[type="radio"]:checked + .method-icon + .method-name {
-    color: var(--accent-primary);
-    font-weight: 600;
-}
-
-.method-icon {
-    font-size: 20px;
-    width: 24px;
-    text-align: center;
-}
-
-.method-name {
-    color: var(--text-primary);
-    font-size: 14px;
-}
-
-/* Форма покупки */
-.purchase-form {
-    margin-top: 24px;
-}
-
-.agreement {
-    margin-bottom: 20px;
-}
-
-.checkbox-agreement {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    font-size: 14px;
-    color: var(--text-secondary);
-    cursor: pointer;
-    line-height: 1.4;
-}
-
-.checkbox-agreement input[type="checkbox"] {
-    margin-top: 2px;
-}
-
-.checkbox-agreement a {
-    color: var(--accent-primary);
-    text-decoration: none;
-}
-
-.checkbox-agreement a:hover {
-    text-decoration: underline;
-}
-
-.purchase-btn {
-    width: 100%;
-    background: var(--success-color);
-    color: white;
-    border: none;
-    padding: 18px 24px;
-    border-radius: 12px;
-    font-size: 16px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-bottom: 16px;
-}
-
-.purchase-btn:hover {
-    background: #059669;
-    transform: translateY(-2px);
-    box-shadow: var(--shadow);
-}
-
-.security-info {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    justify-content: center;
-    color: var(--text-muted);
-    font-size: 14px;
-}
-
-.security-icon {
-    font-size: 16px;
-}
-
-/* Гарантии */
-.guarantees {
-    background: var(--bg-surface);
-    border: 1px solid var(--border-color);
-    border-radius: 16px;
-    padding: 24px;
-}
-
-.guarantees h4 {
-    font-size: 16px;
-    font-weight: 600;
-    margin: 0 0 16px 0;
-    color: var(--text-primary);
-}
-
-.benefits-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.benefits-list li {
-    padding: 8px 0;
-    color: var(--text-secondary);
-    font-size: 14px;
-    position: relative;
-    padding-left: 20px;
-}
-
-.benefits-list li::before {
-    content: '✓';
-    position: absolute;
-    left: 0;
-    color: var(--success-color);
-    font-weight: bold;
-}
-
-/* Адаптивность */
-@media (max-width: 1024px) {
     .purchase-layout {
-        grid-template-columns: 1fr;
+        display: grid;
+        grid-template-columns: 1fr 400px;
+        gap: 32px;
+        align-items: start;
+    }
+
+    .course-info-section {
+        display: flex;
+        flex-direction: column;
         gap: 24px;
     }
-    
-    .payment-section {
-        position: static;
-    }
-}
 
-@media (max-width: 768px) {
-    .purchase-container {
-        padding: 24px 16px;
+    .course-card-purchase {
+        background: var(--bg-surface);
+        border: 1px solid var(--border-color);
+        border-radius: 16px;
+        overflow: hidden;
+        transition: all 0.3s ease;
     }
-    
-    .purchase-header {
-        padding: 24px;
-        margin-bottom: 32px;
-    }
-    
-    .purchase-header h1 {
-        font-size: 28px;
-    }
-    
-    .course-stats {
-        flex-direction: column;
-        gap: 12px;
-    }
-    
-    .payment-card {
-        padding: 24px;
-    }
-    
-    .methods-grid {
-        gap: 8px;
-    }
-    
-    .method-option {
-        padding: 12px;
-    }
-}
 
-@media (max-width: 480px) {
-    .purchase-header h1 {
-        font-size: 24px;
+    .course-card-purchase:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-hover);
     }
-    
+
+    .course-cover {
+        height: 200px;
+        background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+
+    .course-cover img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .course-cover:not(:has(img))::before {
+        content: '📚';
+        font-size: 64px;
+        opacity: 0.8;
+    }
+
     .course-details {
-        padding: 20px;
+        padding: 24px;
     }
-    
+
     .course-details h2 {
+        font-size: 24px;
+        font-weight: 700;
+        margin: 0 0 12px 0;
+        color: var(--text-primary);
+    }
+
+    .course-description {
+        color: var(--text-secondary);
+        line-height: 1.6;
+        margin: 0 0 20px 0;
+    }
+
+    .course-stats {
+        display: flex;
+        gap: 20px;
+    }
+
+    .stat {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--text-muted);
+        font-size: 14px;
+    }
+
+    .stat-icon {
+        font-size: 16px;
+    }
+
+    .user-info {
+        background: var(--bg-surface);
+        border: 1px solid var(--border-color);
+        border-radius: 16px;
+        padding: 24px;
+    }
+
+    .user-info h3 {
+        font-size: 18px;
+        font-weight: 600;
+        margin: 0 0 16px 0;
+        color: var(--text-primary);
+    }
+
+    .user-details {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .user-avatar {
+        width: 50px;
+        height: 50px;
+        background: var(--accent-primary);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         font-size: 20px;
     }
-    
-    .user-details {
+
+    .user-data {
+        display: flex;
         flex-direction: column;
-        text-align: center;
+    }
+
+    .user-data strong {
+        color: var(--text-primary);
+        font-size: 16px;
+    }
+
+    .user-data span {
+        color: var(--text-muted);
+        font-size: 14px;
+    }
+
+    /* Блок оплаты */
+    .payment-section {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        position: sticky;
+        top: 32px;
+    }
+
+    .payment-card {
+        background: var(--bg-surface);
+        border: 1px solid var(--border-color);
+        border-radius: 16px;
+        padding: 32px;
+    }
+
+    .payment-card h3 {
+        font-size: 20px;
+        font-weight: 700;
+        margin: 0 0 24px 0;
+        color: var(--text-primary);
+    }
+
+    .price-breakdown {
+        margin-bottom: 24px;
+    }
+
+    .price-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 0;
+        border-bottom: 1px solid var(--border-light);
+        color: var(--text-primary);
+    }
+
+    .price-row.total {
+        border-bottom: none;
+        border-top: 2px solid var(--accent-primary);
+        margin-top: 8px;
+        padding-top: 16px;
+        font-weight: 700;
+    }
+
+    .total-price {
+        color: var(--accent-primary);
+        font-size: 18px;
+        font-weight: 800;
+    }
+
+    .payment-methods {
+        margin-bottom: 24px;
+    }
+
+    .payment-methods h4 {
+        font-size: 16px;
+        font-weight: 600;
+        margin: 0 0 16px 0;
+        color: var(--text-primary);
+    }
+
+    .methods-grid {
+        display: flex;
+        flex-direction: column;
         gap: 12px;
     }
-}
+
+    .method-option {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 16px;
+        border: 2px solid var(--border-light);
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .method-option:hover {
+        border-color: var(--accent-primary);
+        background: var(--bg-secondary);
+    }
+
+    .method-option input[type="radio"] {
+        margin: 0;
+    }
+
+    .method-option input[type="radio"]:checked+.method-icon+.method-name {
+        color: var(--accent-primary);
+        font-weight: 600;
+    }
+
+    .method-icon {
+        font-size: 20px;
+        width: 24px;
+        text-align: center;
+    }
+
+    .method-name {
+        color: var(--text-primary);
+        font-size: 14px;
+    }
+
+    .purchase-form {
+        margin-top: 24px;
+    }
+
+    .agreement {
+        margin-bottom: 20px;
+    }
+
+    .checkbox-agreement {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        font-size: 14px;
+        color: var(--text-secondary);
+        cursor: pointer;
+        line-height: 1.4;
+    }
+
+    .checkbox-agreement input[type="checkbox"] {
+        margin-top: 2px;
+    }
+
+    .checkbox-agreement a {
+        color: var(--accent-primary);
+        text-decoration: none;
+    }
+
+    .checkbox-agreement a:hover {
+        text-decoration: underline;
+    }
+
+    .purchase-btn {
+        width: 100%;
+        background: var(--success-color);
+        color: white;
+        border: none;
+        padding: 18px 24px;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-bottom: 16px;
+    }
+
+    .purchase-btn:hover {
+        background: #059669;
+        transform: translateY(-2px);
+        box-shadow: var(--shadow);
+    }
+
+    .security-info {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        justify-content: center;
+        color: var(--text-muted);
+        font-size: 14px;
+    }
+
+    .security-icon {
+        font-size: 16px;
+    }
+
+    .guarantees {
+        background: var(--bg-surface);
+        border: 1px solid var(--border-color);
+        border-radius: 16px;
+        padding: 24px;
+    }
+
+    .guarantees h4 {
+        font-size: 16px;
+        font-weight: 600;
+        margin: 0 0 16px 0;
+        color: var(--text-primary);
+    }
+
+    .benefits-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .benefits-list li {
+        padding: 8px 0;
+        color: var(--text-secondary);
+        font-size: 14px;
+        position: relative;
+        padding-left: 20px;
+    }
+
+    .benefits-list li::before {
+        content: '✓';
+        position: absolute;
+        left: 0;
+        color: var(--success-color);
+        font-weight: bold;
+    }
+
+    @media (max-width: 1024px) {
+        .purchase-layout {
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+
+        .payment-section {
+            position: static;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .purchase-container {
+            padding: 24px 16px;
+        }
+
+        .purchase-header {
+            padding: 24px;
+            margin-bottom: 32px;
+        }
+
+        .purchase-header h1 {
+            font-size: 28px;
+        }
+
+        .course-stats {
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .payment-card {
+            padding: 24px;
+        }
+
+        .methods-grid {
+            gap: 8px;
+        }
+
+        .method-option {
+            padding: 12px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .purchase-header h1 {
+            font-size: 24px;
+        }
+
+        .course-details {
+            padding: 20px;
+        }
+
+        .course-details h2 {
+            font-size: 20px;
+        }
+
+        .user-details {
+            flex-direction: column;
+            text-align: center;
+            gap: 12px;
+        }
+    }
 </style>
 {% endblock %}
 
 {% block scripts %}
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const paymentMethods = document.querySelectorAll('input[name="payment_method"]');
-    const paymentMethodInput = document.getElementById('payment_method');
-    
-    paymentMethods.forEach(method => {
-        method.addEventListener('change', function() {
-            paymentMethodInput.value = this.value;
+    document.addEventListener('DOMContentLoaded', function () {
+        const paymentMethods = document.querySelectorAll('input[name="payment_method"]');
+        const paymentMethodInput = document.getElementById('payment_method');
+
+        paymentMethods.forEach(method => {
+            method.addEventListener('change', function () {
+                paymentMethodInput.value = this.value;
+            });
+        });
+
+        const purchaseForm = document.querySelector('.purchase-form');
+        purchaseForm.addEventListener('submit', function (e) {
+            const agreement = this.querySelector('input[name="agreement"]');
+            if (!agreement.checked) {
+                e.preventDefault();
+                alert('Пожалуйста, согласитесь с условиями оказания услуг');
+                return;
+            }
+
+            const confirmed = confirm(`Подтверждаете покупку курса "${document.querySelector('.course-details h2').textContent}" за ${document.querySelector('.total-price').textContent}?`);
+            if (!confirmed) {
+                e.preventDefault();
+            }
         });
     });
-    
-    const purchaseForm = document.querySelector('.purchase-form');
-    purchaseForm.addEventListener('submit', function(e) {
-        const agreement = this.querySelector('input[name="agreement"]');
-        if (!agreement.checked) {
-            e.preventDefault();
-            alert('Пожалуйста, согласитесь с условиями оказания услуг');
-            return;
-        }
-        
-        const confirmed = confirm(`Подтверждаете покупку курса "${document.querySelector('.course-details h2').textContent}" за ${document.querySelector('.total-price').textContent}?`);
-        if (!confirmed) {
-            e.preventDefault();
-        }
-    });
-});
 </script>
 {% endblock %}

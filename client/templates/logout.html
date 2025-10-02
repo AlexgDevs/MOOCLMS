@@ -173,20 +173,48 @@
     }
 }
 
-.logout-container::before {
-    content: '🚪';
-    font-size: 64px;
-    display: block;
-    margin-bottom: 16px;
-    opacity: 0.8;
+.logout-header {
+    text-align: center;
+    margin-bottom: 24px;
 }
 
-.form-group form:first-child button::before {
-    content: '✅ ';
+.logout-icon {
+    width: 80px;
+    height: 80px;
+    background: var(--accent-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
 }
 
-.form-group form:last-child button::before {
-    content: '❌ ';
+.logout-icon svg {
+    width: 40px;
+    height: 40px;
+    fill: white;
+}
+
+.form-group button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.back-link {
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-secondary);
+    text-decoration: none;
+}
+
+.back-link:hover {
+    color: var(--accent-primary);
 }
 </style>
 {% endblock %}
@@ -194,15 +222,32 @@
 {% block content %}
 {{ super() }}
 <div class="logout-container">
-    <span><a href="{{ url_for('home') }}">Назад</a></span>
-    <h1>Выход из аккаунта</h1>
-    <span>Вы уверены что хотите<strong>выйти</strong>из аккаунта?</span>
+    <a href="{{ url_for('home') }}" class="back-link">
+        <svg class="icon"><use xlink:href="#icon-back"></use></svg>
+        Назад
+    </a>
+    
+    <div class="logout-header">
+        <div class="logout-icon">
+            <svg><use xlink:href="#icon-logout"></use></svg>
+        </div>
+        <h1>Выход из аккаунта</h1>
+    </div>
+    
+    <span>Вы уверены что хотите <strong>выйти</strong> из аккаунта?</span>
+    
     <div class="form-group">
         <form action="/logout/accept" method="get">
-            <button type="submit">Да</button>
+            <button type="submit">
+                <svg class="icon"><use xlink:href="#icon-confirm"></use></svg>
+                Да
+            </button>
         </form>
         <form action="/logout/cancel" method="get">
-            <button type="submit">Нет</button>
+            <button type="submit">
+                <svg class="icon"><use xlink:href="#icon-cancel"></use></svg>
+                Нет
+            </button>
         </form>
     </div>
 </div>

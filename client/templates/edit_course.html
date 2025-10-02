@@ -4,7 +4,6 @@
 {% block styles %}
 {{ super() }}
 <style>
-    /* Основные переменные для редактора */
     :root {
         --bg-primary: #1A1D21;
         --bg-secondary: #2D3138;
@@ -24,7 +23,6 @@
         --shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.4);
     }
 
-    /* Контейнер редактора */
     .edit-course-container {
         padding: 24px;
         max-width: 1400px;
@@ -33,7 +31,6 @@
         min-height: 100vh;
     }
 
-    /* Шапка редактора */
     .edit-header {
         display: flex;
         justify-content: space-between;
@@ -65,7 +62,6 @@
         flex-shrink: 0;
     }
 
-    /* Статистика курса */
     .course-stats {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -119,7 +115,6 @@
         margin-top: 4px;
     }
 
-    /* Основной layout */
     .edit-layout {
         display: grid;
         grid-template-columns: 400px 1fr;
@@ -127,7 +122,6 @@
         align-items: start;
     }
 
-    /* Боковая панель модулей */
     .edit-sidebar {
         background: var(--bg-surface);
         border-radius: 16px;
@@ -156,7 +150,6 @@
         padding: 16px;
     }
 
-    /* Модули и уроки */
     .module-item {
         background: var(--bg-card);
         border: 1px solid var(--border-light);
@@ -215,7 +208,6 @@
         gap: 8px;
     }
 
-    /* Уроки */
     .lessons-list {
         padding: 12px;
         background: var(--bg-surface);
@@ -823,7 +815,6 @@
                         </div>
                     </div>
 
-                    <!-- ПРАВИЛЬНАЯ обработка типа курса -->
                     <div class="form-group">
                         <label class="checkbox-label">
                             <input type="checkbox" name="is_free" value="true" {% if course.type=='free' %}checked{%

@@ -1,7 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms.validators import ValidationError, DataRequired, Length, EqualTo, NumberRange, Optional
-from wtforms import FileField, IntegerField, PasswordField, SelectField, SubmitField, StringField, TextAreaField, validators, IntegerRangeField
-from sqlalchemy import select
+from wtforms.validators import DataRequired, Length, Optional
+from wtforms import FileField, SelectField, SubmitField, StringField, TextAreaField
 
 
 class CreateLessonForm(FlaskForm):

@@ -1,10 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms.validators import ValidationError, DataRequired, Length, EqualTo
-from wtforms import PasswordField, SubmitField, StringField, validators
-from sqlalchemy import select
-
-from ..db import User, db_manager
-
+from wtforms.validators import DataRequired, Length, EqualTo
+from wtforms import PasswordField, SubmitField, StringField
 
 
 class RegisterForm(FlaskForm):

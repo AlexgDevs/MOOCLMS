@@ -3,515 +3,534 @@
 {% block styles %}
 {{ super() }}
 <style>
-:root {
-    --bg-primary: #1A1D21;
-    --bg-secondary: #2D3138;
-    --bg-surface: #25282E;
-    --bg-card: #2D3138;
-    --accent-primary: #4A76CF;
-    --accent-secondary: #5D8DE4;
-    --success-color: #10B981;
-    --premium-color: #8B5CF6;
-    --text-primary: #E8EAED;
-    --text-secondary: #9AA0A6;
-    --text-muted: #6E7680;
-    --border-color: #3E424A;
-    --border-light: #4A4F58;
-    --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    --shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.4);
-    --shadow-glow: 0 0 20px rgba(74, 118, 207, 0.3);
-}
-
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-section {
-    margin-bottom: 80px;
-}
-
-.hero {
-    text-align: center;
-    padding: 80px 0;
-    background: linear-gradient(135deg, var(--bg-surface) 0%, var(--bg-primary) 100%);
-    border-radius: 24px;
-    margin: 40px 0 80px 0;
-    border: 1px solid var(--border-color);
-    position: relative;
-    overflow: hidden;
-}
-
-.hero::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: radial-gradient(circle at 30% 20%, rgba(74, 118, 207, 0.1) 0%, transparent 50%);
-}
-
-.hero h1 {
-    font-size: 48px;
-    font-weight: 800;
-    margin: 0 0 24px 0;
-    background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-primary) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    line-height: 1.2;
-    position: relative;
-}
-
-.hero p {
-    font-size: 20px;
-    color: var(--text-secondary);
-    margin: 0;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-    line-height: 1.6;
-}
-
-.pricing-options {
-    margin: 80px 0;
-}
-
-.options-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 32px;
-    margin-bottom: 60px;
-}
-
-.option-card {
-    background: var(--bg-surface);
-    border: 1px solid var(--border-color);
-    border-radius: 20px;
-    padding: 0;
-    overflow: hidden;
-    transition: all 0.4s ease;
-    position: relative;
-}
-
-.option-card:hover {
-    transform: translateY(-8px);
-    box-shadow: var(--shadow-hover);
-}
-
-.option-card.free:hover {
-    border-color: var(--accent-primary);
-}
-
-.option-card.premium:hover {
-    border-color: var(--premium-color);
-    box-shadow: var(--shadow-glow);
-}
-
-.option-card.premium {
-    position: relative;
-    border: 2px solid var(--premium-color);
-}
-
-.option-card.premium::before {
-    content: '🔥 ПОПУЛЯРНЫЙ';
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background: var(--premium-color);
-    color: white;
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.option-header {
-    padding: 32px 32px 24px;
-    border-bottom: 1px solid var(--border-color);
-    background: var(--bg-secondary);
-}
-
-.option-header h2 {
-    margin: 0 0 16px 0;
-    font-size: 24px;
-    font-weight: 700;
-    color: var(--text-primary);
-}
-
-.price {
-    font-size: 32px;
-    font-weight: 800;
-    color: var(--accent-primary);
-}
-
-.option-card.premium .price {
-    color: var(--premium-color);
-}
-
-.features-list {
-    padding: 32px;
-    margin: 0;
-    list-style: none;
-}
-
-.features-list li {
-    padding: 12px 0;
-    color: var(--text-primary);
-    font-size: 16px;
-    border-bottom: 1px solid var(--border-light);
-    display: flex;
-    align-items: center;
-}
-
-.features-list li:last-child {
-    border-bottom: none;
-}
-
-.features-list li::before {
-    margin-right: 12px;
-    font-size: 18px;
-}
-
-.option-footer {
-    padding: 24px 32px 32px;
-    background: var(--bg-secondary);
-    border-top: 1px solid var(--border-color);
-}
-
-.btn-select {
-    width: 100%;
-    padding: 16px 24px;
-    border: none;
-    border-radius: 12px;
-    font-size: 16px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-bottom: 16px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.option-card.free .btn-select {
-    background: var(--accent-primary);
-    color: white;
-}
-
-.option-card.free .btn-select:hover {
-    background: var(--accent-secondary);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow);
-}
-
-.option-card.premium .btn-select {
-    background: var(--premium-color);
-    color: white;
-}
-
-.option-card.premium .btn-select:hover {
-    background: #7C3AED;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(139, 92, 246, 0.3);
-}
-
-.ideal-for {
-    text-align: center;
-    margin: 0;
-    font-size: 14px;
-    color: var(--text-muted);
-    font-style: italic;
-}
-
-.comparison {
-    background: var(--bg-surface);
-    border-radius: 20px;
-    padding: 48px;
-    border: 1px solid var(--border-color);
-}
-
-.comparison h2 {
-    text-align: center;
-    font-size: 32px;
-    font-weight: 700;
-    margin: 0 0 40px 0;
-    color: var(--text-primary);
-}
-
-.comparison-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: var(--bg-secondary);
-    border-radius: 12px;
-    overflow: hidden;
-}
-
-.comparison-table th,
-.comparison-table td {
-    padding: 20px 24px;
-    text-align: left;
-    border-bottom: 1px solid var(--border-color);
-}
-
-.comparison-table th {
-    background: var(--bg-primary);
-    color: var(--text-primary);
-    font-weight: 700;
-    font-size: 16px;
-}
-
-.comparison-table td {
-    color: var(--text-primary);
-    font-size: 15px;
-}
-
-.comparison-table tr:hover {
-    background: var(--bg-surface);
-}
-
-.comparison-table thead th:first-child {
-    border-top-left-radius: 12px;
-}
-
-.comparison-table thead th:last-child {
-    border-top-right-radius: 12px;
-}
-
-.comparison-table tbody tr:last-child td {
-    border-bottom: none;
-}
-
-.faq {
-    background: var(--bg-surface);
-    border-radius: 20px;
-    padding: 48px;
-    border: 1px solid var(--border-color);
-}
-
-.faq h2 {
-    text-align: center;
-    font-size: 32px;
-    font-weight: 700;
-    margin: 0 0 40px 0;
-    color: var(--text-primary);
-}
-
-.faq-item {
-    background: var(--bg-secondary);
-    border-radius: 12px;
-    padding: 24px;
-    margin-bottom: 20px;
-    border: 1px solid var(--border-color);
-    transition: all 0.3s ease;
-}
-
-.faq-item:hover {
-    border-color: var(--accent-primary);
-    transform: translateY(-2px);
-}
-
-.faq-item h3 {
-    margin: 0 0 12px 0;
-    font-size: 18px;
-    font-weight: 600;
-    color: var(--text-primary);
-}
-
-.faq-item p {
-    margin: 0;
-    color: var(--text-secondary);
-    line-height: 1.6;
-    font-size: 15px;
-}
-
-.cta {
-    text-align: center;
-    padding: 80px 0;
-    background: linear-gradient(135deg, var(--bg-surface) 0%, var(--bg-primary) 100%);
-    border-radius: 24px;
-    border: 1px solid var(--border-color);
-    margin: 80px 0;
-}
-
-.cta h2 {
-    font-size: 36px;
-    font-weight: 700;
-    margin: 0 0 16px 0;
-    color: var(--text-primary);
-}
-
-.cta p {
-    font-size: 18px;
-    color: var(--text-secondary);
-    margin: 0 0 40px 0;
-}
-
-.cta-buttons {
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-    flex-wrap: wrap;
-}
-
-.btn-cta {
-    padding: 18px 32px;
-    border: none;
-    border-radius: 12px;
-    font-size: 16px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    min-width: 200px;
-}
-
-.btn-cta.free {
-    background: var(--accent-primary);
-    color: white;
-}
-
-.btn-cta.free:hover {
-    background: var(--accent-secondary);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow);
-}
-
-.btn-cta.premium {
-    background: var(--premium-color);
-    color: white;
-}
-
-.btn-cta.premium:hover {
-    background: #7C3AED;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(139, 92, 246, 0.3);
-}
-
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
+    :root {
+        --bg-primary: #1A1D21;
+        --bg-secondary: #2D3138;
+        --bg-surface: #25282E;
+        --bg-card: #2D3138;
+        --accent-primary: #4A76CF;
+        --accent-secondary: #5D8DE4;
+        --success-color: #10B981;
+        --premium-color: #8B5CF6;
+        --text-primary: #E8EAED;
+        --text-secondary: #9AA0A6;
+        --text-muted: #6E7680;
+        --border-color: #3E424A;
+        --border-light: #4A4F58;
+        --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        --shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.4);
+        --shadow-glow: 0 0 20px rgba(74, 118, 207, 0.3);
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
 
-.hero, .option-card, .comparison, .faq, .cta {
-    animation: fadeInUp 0.6s ease forwards;
-}
-
-.option-card:nth-child(1) { animation-delay: 0.1s; }
-.option-card:nth-child(2) { animation-delay: 0.2s; }
-.comparison { animation-delay: 0.3s; }
-.faq { animation-delay: 0.4s; }
-.cta { animation-delay: 0.5s; }
-
-/* Адаптивность */
-@media (max-width: 1024px) {
-    .options-grid {
-        grid-template-columns: 1fr;
-        gap: 24px;
-    }
-    
-    .option-card.premium::before {
-        position: static;
-        display: inline-block;
-        margin-bottom: 16px;
-    }
-}
-
-@media (max-width: 768px) {
     .container {
-        padding: 0 16px;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
     }
-    
+
+    section {
+        margin-bottom: 80px;
+    }
+
     .hero {
-        padding: 60px 20px;
-        margin: 20px 0 60px 0;
+        text-align: center;
+        padding: 80px 0;
+        background: linear-gradient(135deg, var(--bg-surface) 0%, var(--bg-primary) 100%);
+        border-radius: 24px;
+        margin: 40px 0 80px 0;
+        border: 1px solid var(--border-color);
+        position: relative;
+        overflow: hidden;
     }
-    
+
+    .hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(circle at 30% 20%, rgba(74, 118, 207, 0.1) 0%, transparent 50%);
+    }
+
     .hero h1 {
-        font-size: 36px;
+        font-size: 48px;
+        font-weight: 800;
+        margin: 0 0 24px 0;
+        background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-primary) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        line-height: 1.2;
+        position: relative;
     }
-    
+
     .hero p {
-        font-size: 18px;
+        font-size: 20px;
+        color: var(--text-secondary);
+        margin: 0;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+        line-height: 1.6;
     }
-    
-    .comparison, .faq {
-        padding: 32px 24px;
+
+    .pricing-options {
+        margin: 80px 0;
     }
-    
-    .comparison-table {
-        display: block;
-        overflow-x: auto;
+
+    .options-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 32px;
+        margin-bottom: 60px;
     }
-    
-    .cta-buttons {
-        flex-direction: column;
+
+    .option-card {
+        background: var(--bg-surface);
+        border: 1px solid var(--border-color);
+        border-radius: 20px;
+        padding: 0;
+        overflow: hidden;
+        transition: all 0.4s ease;
+        position: relative;
+    }
+
+    .option-card:hover {
+        transform: translateY(-8px);
+        box-shadow: var(--shadow-hover);
+    }
+
+    .option-card.free:hover {
+        border-color: var(--accent-primary);
+    }
+
+    .option-card.premium:hover {
+        border-color: var(--premium-color);
+        box-shadow: var(--shadow-glow);
+    }
+
+    .option-card.premium {
+        position: relative;
+        border: 2px solid var(--premium-color);
+    }
+
+    .option-card.premium::before {
+        content: '🔥 ПОПУЛЯРНЫЙ';
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: var(--premium-color);
+        color: white;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .option-header {
+        padding: 32px 32px 24px;
+        border-bottom: 1px solid var(--border-color);
+        background: var(--bg-secondary);
+    }
+
+    .option-header h2 {
+        margin: 0 0 16px 0;
+        font-size: 24px;
+        font-weight: 700;
+        color: var(--text-primary);
+    }
+
+    .price {
+        font-size: 32px;
+        font-weight: 800;
+        color: var(--accent-primary);
+    }
+
+    .option-card.premium .price {
+        color: var(--premium-color);
+    }
+
+    .features-list {
+        padding: 32px;
+        margin: 0;
+        list-style: none;
+    }
+
+    .features-list li {
+        padding: 12px 0;
+        color: var(--text-primary);
+        font-size: 16px;
+        border-bottom: 1px solid var(--border-light);
+        display: flex;
         align-items: center;
     }
-    
-    .btn-cta {
-        width: 100%;
-        max-width: 300px;
-    }
-    
-    .features-list {
-        padding: 24px;
-    }
-    
-    .option-header {
-        padding: 24px 24px 20px;
-    }
-    
-    .option-footer {
-        padding: 20px 24px 24px;
-    }
-}
 
-@media (max-width: 480px) {
-    .hero h1 {
-        font-size: 28px;
+    .features-list li:last-child {
+        border-bottom: none;
     }
-    
-    .hero p {
+
+    .features-list li::before {
+        margin-right: 12px;
+        font-size: 18px;
+    }
+
+    .option-footer {
+        padding: 24px 32px 32px;
+        background: var(--bg-secondary);
+        border-top: 1px solid var(--border-color);
+    }
+
+    .btn-select {
+        width: 100%;
+        padding: 16px 24px;
+        border: none;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-bottom: 16px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .option-card.free .btn-select {
+        background: var(--accent-primary);
+        color: white;
+    }
+
+    .option-card.free .btn-select:hover {
+        background: var(--accent-secondary);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow);
+    }
+
+    .option-card.premium .btn-select {
+        background: var(--premium-color);
+        color: white;
+    }
+
+    .option-card.premium .btn-select:hover {
+        background: #7C3AED;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(139, 92, 246, 0.3);
+    }
+
+    .ideal-for {
+        text-align: center;
+        margin: 0;
+        font-size: 14px;
+        color: var(--text-muted);
+        font-style: italic;
+    }
+
+    .comparison {
+        background: var(--bg-surface);
+        border-radius: 20px;
+        padding: 48px;
+        border: 1px solid var(--border-color);
+    }
+
+    .comparison h2 {
+        text-align: center;
+        font-size: 32px;
+        font-weight: 700;
+        margin: 0 0 40px 0;
+        color: var(--text-primary);
+    }
+
+    .comparison-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: var(--bg-secondary);
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .comparison-table th,
+    .comparison-table td {
+        padding: 20px 24px;
+        text-align: left;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .comparison-table th {
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        font-weight: 700;
         font-size: 16px;
     }
-    
-    .comparison h2,
+
+    .comparison-table td {
+        color: var(--text-primary);
+        font-size: 15px;
+    }
+
+    .comparison-table tr:hover {
+        background: var(--bg-surface);
+    }
+
+    .comparison-table thead th:first-child {
+        border-top-left-radius: 12px;
+    }
+
+    .comparison-table thead th:last-child {
+        border-top-right-radius: 12px;
+    }
+
+    .comparison-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    .faq {
+        background: var(--bg-surface);
+        border-radius: 20px;
+        padding: 48px;
+        border: 1px solid var(--border-color);
+    }
+
     .faq h2 {
-        font-size: 24px;
+        text-align: center;
+        font-size: 32px;
+        font-weight: 700;
+        margin: 0 0 40px 0;
+        color: var(--text-primary);
     }
-    
+
+    .faq-item {
+        background: var(--bg-secondary);
+        border-radius: 12px;
+        padding: 24px;
+        margin-bottom: 20px;
+        border: 1px solid var(--border-color);
+        transition: all 0.3s ease;
+    }
+
+    .faq-item:hover {
+        border-color: var(--accent-primary);
+        transform: translateY(-2px);
+    }
+
+    .faq-item h3 {
+        margin: 0 0 12px 0;
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--text-primary);
+    }
+
+    .faq-item p {
+        margin: 0;
+        color: var(--text-secondary);
+        line-height: 1.6;
+        font-size: 15px;
+    }
+
+    .cta {
+        text-align: center;
+        padding: 80px 0;
+        background: linear-gradient(135deg, var(--bg-surface) 0%, var(--bg-primary) 100%);
+        border-radius: 24px;
+        border: 1px solid var(--border-color);
+        margin: 80px 0;
+    }
+
     .cta h2 {
-        font-size: 28px;
+        font-size: 36px;
+        font-weight: 700;
+        margin: 0 0 16px 0;
+        color: var(--text-primary);
     }
-    
-    .price {
-        font-size: 24px;
+
+    .cta p {
+        font-size: 18px;
+        color: var(--text-secondary);
+        margin: 0 0 40px 0;
     }
-}
 
-.comparison-table::-webkit-scrollbar {
-    height: 6px;
-}
+    .cta-buttons {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
 
-.comparison-table::-webkit-scrollbar-track {
-    background: var(--bg-secondary);
-}
+    .btn-cta {
+        padding: 18px 32px;
+        border: none;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        min-width: 200px;
+    }
 
-.comparison-table::-webkit-scrollbar-thumb {
-    background: var(--accent-primary);
-    border-radius: 3px;
-}
+    .btn-cta.free {
+        background: var(--accent-primary);
+        color: white;
+    }
+
+    .btn-cta.free:hover {
+        background: var(--accent-secondary);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow);
+    }
+
+    .btn-cta.premium {
+        background: var(--premium-color);
+        color: white;
+    }
+
+    .btn-cta.premium:hover {
+        background: #7C3AED;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(139, 92, 246, 0.3);
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .hero,
+    .option-card,
+    .comparison,
+    .faq,
+    .cta {
+        animation: fadeInUp 0.6s ease forwards;
+    }
+
+    .option-card:nth-child(1) {
+        animation-delay: 0.1s;
+    }
+
+    .option-card:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+
+    .comparison {
+        animation-delay: 0.3s;
+    }
+
+    .faq {
+        animation-delay: 0.4s;
+    }
+
+    .cta {
+        animation-delay: 0.5s;
+    }
+
+    @media (max-width: 1024px) {
+        .options-grid {
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+
+        .option-card.premium::before {
+            position: static;
+            display: inline-block;
+            margin-bottom: 16px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .container {
+            padding: 0 16px;
+        }
+
+        .hero {
+            padding: 60px 20px;
+            margin: 20px 0 60px 0;
+        }
+
+        .hero h1 {
+            font-size: 36px;
+        }
+
+        .hero p {
+            font-size: 18px;
+        }
+
+        .comparison,
+        .faq {
+            padding: 32px 24px;
+        }
+
+        .comparison-table {
+            display: block;
+            overflow-x: auto;
+        }
+
+        .cta-buttons {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .btn-cta {
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .features-list {
+            padding: 24px;
+        }
+
+        .option-header {
+            padding: 24px 24px 20px;
+        }
+
+        .option-footer {
+            padding: 20px 24px 24px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .hero h1 {
+            font-size: 28px;
+        }
+
+        .hero p {
+            font-size: 16px;
+        }
+
+        .comparison h2,
+        .faq h2 {
+            font-size: 24px;
+        }
+
+        .cta h2 {
+            font-size: 28px;
+        }
+
+        .price {
+            font-size: 24px;
+        }
+    }
+
+    .comparison-table::-webkit-scrollbar {
+        height: 6px;
+    }
+
+    .comparison-table::-webkit-scrollbar-track {
+        background: var(--bg-secondary);
+    }
+
+    .comparison-table::-webkit-scrollbar-thumb {
+        background: var(--accent-primary);
+        border-radius: 3px;
+    }
 </style>
 {% endblock %}
 
@@ -521,27 +540,75 @@ section {
 {{ super() }}
 <div class="container">
     <section class="hero">
-        <h1>Создайте свой курс</h1>
+        <h1>
+            <svg class="icon icon-xl">
+                <use xlink:href="#icon-teach"></use>
+            </svg>
+            Создайте свой курс
+        </h1>
         <p>Поделитесь знаниями с тысячами студентов и начните зарабатывать на своем опыте</p>
     </section>
     <section class="pricing-options">
         <div class="options-grid">
             <div class="option-card free">
                 <div class="option-header">
-                    <h2>🎓 Бесплатный курс</h2>
+                    <h2>
+                        <svg class="icon">
+                            <use xlink:href="#icon-free"></use>
+                        </svg>
+                        Бесплатный курс
+                    </h2>
                     <div class="price">Бесплатно</div>
                 </div>
                 <ul class="features-list">
-                    <li>✅ Неограниченное количество студентов</li>
-                    <li>✅ До 10 уроков в курсе</li>
-                    <li>✅ Базовая аналитика просмотров</li>
-                    <li>✅ Комментарии и оценки</li>
-                    <li>❌ Продвижение в каталоге</li>
-                    <li>❌ Сертификаты для студентов</li>
-                    <li>❌ Прием платежей</li>
+                    <li>
+                        <svg class="icon success">
+                            <use xlink:href="#icon-success"></use>
+                        </svg>
+                        Неограниченное количество студентов
+                    </li>
+                    <li>
+                        <svg class="icon success">
+                            <use xlink:href="#icon-success"></use>
+                        </svg>
+                        До 10 уроков в курсе
+                    </li>
+                    <li>
+                        <svg class="icon success">
+                            <use xlink:href="#icon-success"></use>
+                        </svg>
+                        Базовая аналитика просмотров
+                    </li>
+                    <li>
+                        <svg class="icon success">
+                            <use xlink:href="#icon-success"></use>
+                        </svg>
+                        Комментарии и оценки
+                    </li>
+                    <li>
+                        <svg class="icon error">
+                            <use xlink:href="#icon-error"></use>
+                        </svg>
+                        Продвижение в каталоге
+                    </li>
+                    <li>
+                        <svg class="icon error">
+                            <use xlink:href="#icon-error"></use>
+                        </svg>
+                        Сертификаты для студентов
+                    </li>
+                    <li>
+                        <svg class="icon error">
+                            <use xlink:href="#icon-error"></use>
+                        </svg>
+                        Прием платежей
+                    </li>
                 </ul>
                 <div class="option-footer">
                     <button class="btn-select" onclick="selectPlan('free')">
+                        <svg class="icon">
+                            <use xlink:href="#icon-free"></use>
+                        </svg>
                         Выбрать бесплатный
                     </button>
                     <p class="ideal-for">Идеально для начинающих преподавателей</p>
@@ -549,21 +616,64 @@ section {
             </div>
             <div class="option-card premium">
                 <div class="option-header">
-                    <h2>💎 Платный курс</h2>
+                    <h2>
+                        <svg class="icon">
+                            <use xlink:href="#icon-premium"></use>
+                        </svg>
+                        Платный курс
+                    </h2>
                     <div class="price">15% комиссия</div>
                 </div>
                 <ul class="features-list">
-                    <li>✅ Все возможности бесплатного курса</li>
-                    <li>✅ Неограниченное количество уроков</li>
-                    <li>✅ Продвижение в топе каталога</li>
-                    <li>✅ Автоматические сертификаты</li>
-                    <li>✅ Подробная аналитика и отчеты</li>
-                    <li>✅ Прием платежей (карты, электронные кошельки)</li>
-                    <li>✅ Техническая поддержка 24/7</li>
+                    <li>
+                        <svg class="icon success">
+                            <use xlink:href="#icon-success"></use>
+                        </svg>
+                        Все возможности бесплатного курса
+                    </li>
+                    <li>
+                        <svg class="icon success">
+                            <use xlink:href="#icon-success"></use>
+                        </svg>
+                        Неограниченное количество уроков
+                    </li>
+                    <li>
+                        <svg class="icon success">
+                            <use xlink:href="#icon-success"></use>
+                        </svg>
+                        Продвижение в топе каталога
+                    </li>
+                    <li>
+                        <svg class="icon success">
+                            <use xlink:href="#icon-success"></use>
+                        </svg>
+                        Автоматические сертификаты
+                    </li>
+                    <li>
+                        <svg class="icon success">
+                            <use xlink:href="#icon-success"></use>
+                        </svg>
+                        Подробная аналитика и отчеты
+                    </li>
+                    <li>
+                        <svg class="icon success">
+                            <use xlink:href="#icon-success"></use>
+                        </svg>
+                        Прием платежей (карты, электронные кошельки)
+                    </li>
+                    <li>
+                        <svg class="icon success">
+                            <use xlink:href="#icon-success"></use>
+                        </svg>
+                        Техническая поддержка 24/7
+                    </li>
                 </ul>
 
                 <div class="option-footer">
                     <button class="btn-select primary" onclick="selectPlan('premium')">
+                        <svg class="icon">
+                            <use xlink:href="#icon-plus"></use>
+                        </svg>
                         Создать платный курс
                     </button>
                     <p class="ideal-for">Для профессиональных преподавателей</p>
@@ -589,13 +699,21 @@ section {
                 </tr>
                 <tr>
                     <td>Управление ценами и скидками</td>
-                    <td>❌</td>
-                    <td>✅</td>
+                    <td><svg class="icon error">
+                            <use xlink:href="#icon-error"></use>
+                        </svg></td>
+                    <td><svg class="icon success">
+                            <use xlink:href="#icon-success"></use>
+                        </svg></td>
                 </tr>
                 <tr>
                     <td>Автоматические сертификаты</td>
-                    <td>❌</td>
-                    <td>✅</td>
+                    <td><svg class="icon error">
+                            <use xlink:href="#icon-error"></use>
+                        </svg></td>
+                    <td><svg class="icon success">
+                            <use xlink:href="#icon-success"></use>
+                        </svg></td>
                 </tr>
                 <tr>
                     <td>Продвижение в каталоге</td>
@@ -623,22 +741,42 @@ section {
     <section class="faq">
         <h2>Частые вопросы</h2>
         <div class="faq-item">
-            <h3>💡 Можно ли начать с бесплатного, а потом перейти на платный?</h3>
+            <h3>
+                <svg class="icon">
+                    <use xlink:href="#icon-info"></use>
+                </svg>
+                Можно ли начать с бесплатного, а потом перейти на платный?
+            </h3>
             <p>Да! В любой момент вы можете конвертировать бесплатный курс в платный. Все ваши студенты сохранят доступ
                 к материалам.</p>
         </div>
         <div class="faq-item">
-            <h3>💰 Как происходит выплата денег?</h3>
+            <h3>
+                <svg class="icon">
+                    <use xlink:href="#icon-price"></use>
+                </svg>
+                Как происходит выплата денег?
+            </h3>
             <p>Для платных курсов: деньги поступают на ваш баланс после каждой успешной продажи. Вывод доступен раз в 14
                 дней на карту или электронный кошелек.</p>
         </div>
         <div class="faq-item">
-            <h3>📊 Какая аналитика доступна?</h3>
+            <h3>
+                <svg class="icon">
+                    <use xlink:href="#icon-analytics"></use>
+                </svg>
+                Какая аналитика доступна?
+            </h3>
             <p>Для платных курсов: детальная статистика по просмотрам, завершению уроков, удержанию студентов и
                 географическому распределению аудитории.</p>
         </div>
         <div class="faq-item">
-            <h3>👥 Есть ли ограничения по студентам?</h3>
+            <h3>
+                <svg class="icon">
+                    <use xlink:href="#icon-profile"></use>
+                </svg>
+                Есть ли ограничения по студентам?
+            </h3>
             <p>Нет! Количество студентов не ограничено как для бесплатных, так и для платных курсов.</p>
         </div>
     </section>
@@ -646,8 +784,18 @@ section {
         <h2>Готовы поделиться знаниями?</h2>
         <p>Присоединяйтесь к 5,000+ преподавателям на нашей платформе</p>
         <div class="cta-buttons">
-            <button class="btn-cta free" onclick="selectPlan('free')">Начать с бесплатного</button>
-            <button class="btn-cta premium" onclick="selectPlan('premium')">Создать платный курс</button>
+            <button class="btn-cta free" onclick="selectPlan('free')">
+                <svg class="icon">
+                    <use xlink:href="#icon-free"></use>
+                </svg>
+                Начать с бесплатного
+            </button>
+            <button class="btn-cta premium" onclick="selectPlan('premium')">
+                <svg class="icon">
+                    <use xlink:href="#icon-premium"></use>
+                </svg>
+                Создать платный курс
+            </button>
         </div>
     </section>
 </div>
