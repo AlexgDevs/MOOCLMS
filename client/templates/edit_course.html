@@ -669,23 +669,39 @@
             <p class="course-description">{{ course.get('description', '-') }}</p>
         </div>
         <div class="header-actions">
-            <a href="{{ url_for('current_course', course_id=course.get('id')) }}" class="btn btn-secondary">👁️
-                <!--worked-->
-                Предпросмотр</a>
-            <a href="{{ url_for('home') }}" class="btn btn-outline">← Назад к курсам</a> <!--worked-->
+            <a href="{{ url_for('current_course', course_id=course.get('id')) }}" class="btn btn-secondary">
+                <svg class="icon">
+                    <use xlink:href="#icon-eye"></use>
+                </svg>
+                Предпросмотр
+            </a>
+            <a href="{{ url_for('home') }}" class="btn btn-outline">
+                <svg class="icon">
+                    <use xlink:href="#icon-back"></use>
+                </svg>
+                Назад к курсам
+            </a>
         </div>
     </div>
 
     <div class="course-stats">
         <div class="stat-card">
-            <div class="stat-icon">📊</div>
+            <div class="stat-icon">
+                <svg class="icon">
+                    <use xlink:href="#icon-modules"></use>
+                </svg>
+            </div>
             <div class="stat-info">
                 <span class="stat-value">{{ course.get('modules', [])|length }}</span>
                 <span class="stat-label">Модулей</span>
             </div>
         </div>
         <div class="stat-card">
-            <div class="stat-icon">📚</div>
+            <div class="stat-icon">
+                <svg class="icon">
+                    <use xlink:href="#icon-courses"></use>
+                </svg>
+            </div>
             <div class="stat-info">
                 {% set total_lessons = [] %}
                 {% for module in course.get('modules', []) %}
@@ -698,14 +714,22 @@
             </div>
         </div>
         <div class="stat-card">
-            <div class="stat-icon">👥</div>
+            <div class="stat-icon">
+                <svg class="icon">
+                    <use xlink:href="#icon-profile"></use>
+                </svg>
+            </div>
             <div class="stat-info">
                 <span class="stat-value">{{ course.get('record_users', [])|length }}</span>
                 <span class="stat-label">Студентов</span>
             </div>
         </div>
         <div class="stat-card">
-            <div class="stat-icon">💰</div>
+            <div class="stat-icon">
+                <svg class="icon">
+                    <use xlink:href="#icon-price"></use>
+                </svg>
+            </div>
             <div class="stat-info">
                 <span class="stat-value">
                     {{ course.get('type') }}
@@ -721,7 +745,10 @@
                 <h3>Модули курса</h3>
                 <a href="{{ url_for('create_module_page', course_id=course.get('id')) }}"
                     class="btn btn-primary btn-sm">
-                    + Добавить модуль
+                    <svg class="icon">
+                        <use xlink:href="#icon-plus"></use>
+                    </svg>
+                    Добавить модуль
                 </a>
             </div>
 
@@ -730,16 +757,28 @@
                 <div class="module-item">
                     <div class="module-header">
                         <div class="module-info">
-                            <span class="module-icon">📦</span>
+                            <span class="module-icon">
+                                <svg class="icon">
+                                    <use xlink:href="#icon-modules"></use>
+                                </svg>
+                            </span>
                             <div class="module-text">
                                 <h4>{{ module.get('name', 'Без названия') }}</h4>
                                 <span class="lesson-count">{{ module.get('lessons', [])|length }} уроков</span>
                             </div>
                         </div>
                         <div class="module-actions">
-                            <a href="{{ url_for('home') }}" class="btn-icon" title="Редактировать">✏️</a>
+                            <a href="{{ url_for('home') }}" class="btn-icon" title="Редактировать">
+                                <svg class="icon">
+                                    <use xlink:href="#icon-edit"></use>
+                                </svg>
+                            </a>
                             <a href="{{ url_for('home') }}" class="btn-icon" title="Удалить"
-                                onclick="return confirm('Удалить модуль?')">🗑️</a>
+                                onclick="return confirm('Удалить модуль?')">
+                                <svg class="icon">
+                                    <use xlink:href="#icon-delete"></use>
+                                </svg>
+                            </a>
                         </div>
                     </div>
 
@@ -748,24 +787,48 @@
                         <div class="lesson-item">
                             <div class="lesson-info">
                                 <span class="lesson-icon">
-                                    {% if lesson.get('lesson_type') == 'video' %}🎬
-                                    {% elif lesson.get('lesson_type') == 'text' %}📖
-                                    {% elif lesson.get('lesson_type') == 'quiz' %}❓
-                                    {% else %}📝{% endif %}
+                                    {% if lesson.get('lesson_type') == 'video' %}
+                                    <svg class="icon">
+                                        <use xlink:href="#icon-video"></use>
+                                    </svg>
+                                    {% elif lesson.get('lesson_type') == 'text' %}
+                                    <svg class="icon">
+                                        <use xlink:href="#icon-text"></use>
+                                    </svg>
+                                    {% elif lesson.get('lesson_type') == 'quiz' %}
+                                    <svg class="icon">
+                                        <use xlink:href="#icon-quiz"></use>
+                                    </svg>
+                                    {% else %}
+                                    <svg class="icon">
+                                        <use xlink:href="#icon-document"></use>
+                                    </svg>
+                                    {% endif %}
                                 </span>
                                 <span class="lesson-name">{{ lesson.get('name', 'Без названия') }}</span>
                             </div>
                             <div class="lesson-actions">
-                                <a href="{{ url_for('home') }}" class="btn-icon" title="Редактировать">✏️</a>
+                                <a href="{{ url_for('home') }}" class="btn-icon" title="Редактировать">
+                                    <svg class="icon">
+                                        <use xlink:href="#icon-edit"></use>
+                                    </svg>
+                                </a>
                                 <a href="{{ url_for('home') }}" class="btn-icon" title="Удалить"
-                                    onclick="return confirm('Удалить урок?')">🗑️</a>
+                                    onclick="return confirm('Удалить урок?')">
+                                    <svg class="icon">
+                                        <use xlink:href="#icon-delete"></use>
+                                    </svg>
+                                </a>
                             </div>
                         </div>
                         {% endfor %}
 
                         <a href="{{ url_for('create_lesson_page', course_id=course.get('id'), module_id=module.get('id')) }}"
                             class="add-lesson-btn">
-                            + Добавить урок
+                            <svg class="icon">
+                                <use xlink:href="#icon-plus"></use>
+                            </svg>
+                            Добавить урок
                         </a>
                     </div>
                 </div>
@@ -773,9 +836,16 @@
 
                 {% if not course.get('modules') %}
                 <div class="empty-state">
-                    <div class="empty-icon">📭</div>
+                    <div class="empty-icon">
+                        <svg class="icon">
+                            <use xlink:href="#icon-empty"></use>
+                        </svg>
+                    </div>
                     <p>В курсе пока нет модулей</p>
                     <a href="{{ url_for('create_module_page', course_id=course.get('id')) }}" class="btn btn-primary">
+                        <svg class="icon">
+                            <use xlink:href="#icon-plus"></use>
+                        </svg>
                         Создать первый модуль
                     </a>
                 </div>
@@ -844,10 +914,18 @@
                     </div>
 
                     <div class="form-actions">
-                        <button type="submit" class="btn btn-success">💾 Сохранить настройки</button>
+                        <button type="submit" class="btn btn-success">
+                            <svg class="icon">
+                                <use xlink:href="#icon-save"></use>
+                            </svg>
+                            Сохранить настройки
+                        </button>
                         <a href="{{ url_for('home') }}" class="btn btn-danger"
                             onclick="return confirm('Удалить курс? Это действие нельзя отменить.')">
-                            🗑️ Удалить курс
+                            <svg class="icon">
+                                <use xlink:href="#icon-delete"></use>
+                            </svg>
+                            Удалить курс
                         </a>
                     </div>
                 </form>
@@ -863,16 +941,30 @@
                     {% for student in course.get('record_users', []) %}
                     <div class="student-item">
                         <div class="student-info">
-                            <span class="student-avatar">👤</span>
+                            <span class="student-avatar">
+                                <svg class="icon">
+                                    <use xlink:href="#icon-profile"></use>
+                                </svg>
+                            </span>
                             <div class="student-details">
                                 <span class="student-name">{{ student.get('user').get('name') }}</span>
                                 <span class="student-email">{{ student.get('email', '') }}</span>
                             </div>
                         </div>
                         <div class="student-actions">
-                            <a href="#" class="btn btn-outline btn-sm">Написать</a>
+                            <a href="#" class="btn btn-outline btn-sm">
+                                <svg class="icon">
+                                    <use xlink:href="#icon-message"></use>
+                                </svg>
+                                Написать
+                            </a>
                             <a href="{{ url_for('home') }}" class="btn btn-danger btn-sm"
-                                onclick="return confirm('Удалить студента из курса?')">Удалить</a>
+                                onclick="return confirm('Удалить студента из курса?')">
+                                <svg class="icon">
+                                    <use xlink:href="#icon-delete"></use>
+                                </svg>
+                                Удалить
+                            </a>
                         </div>
                     </div>
                     {% endfor %}
