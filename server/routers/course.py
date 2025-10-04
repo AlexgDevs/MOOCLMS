@@ -56,18 +56,19 @@ async def all_courses_info(
 
 
 @course_app.get('/{course_id}/{user_id}/redact',
-                response_model=CourseResponse,
+                response_model=DetailCourseResponse,
                 summary='get info course for redact here',
                 description='endpoint for getting info course for edit by user')
 async def redact_course_info(course_id: int, user_id: int, session=Depends(db_manager.db_session)):
     course = await session.scalar(
-        select(Course)
-        .options(
-            selectinload(Course.record_users).selectinload(
-                RecordCourse.user)
+            select(Course)
+            .options(
+                selectinload(Course.modules).selectinload(Module.lessons),
+                selectinload(Course.record_users).selectinload(
+                    RecordCourse.user)
+            )
+            .where(Course.id == course_id, Course.creator_id == user_id)
         )
-        .where(Course.id == course_id, Course.creator_id == user_id)
-    )
 
     if not course:
         await CustomExeptions.course_not_found()

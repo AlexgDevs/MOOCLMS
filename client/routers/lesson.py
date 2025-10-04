@@ -21,7 +21,7 @@ async def create_lesson_page(course_id, module_id):
     form = CreateLessonForm()
     user = AauthClient.get_current_user()
     async with ClientSession(API_URL) as session:
-        async with session.get(f'/courses/{course_id}/{user.get('id')}') as response:
+        async with session.get(f'/courses/{course_id}/{user.get('id')}/redact') as response:
             if response.status == 200:
                 return render_template('create_lesson.html', form=form, module_id=module_id, course_id=course_id, user_id=user.get('id'))
             return 'nezya', 403
@@ -54,6 +54,6 @@ async def create_lesson():
                 if response.status == 201:
                     flash('Вы успешно создали урок', 'info')
                     return redirect(url_for('redact_course', course_id=request.form.get('course_id')))
-                flash('Не удалось создать курс', 'error')
+                flash('Не удалось создать урок', 'error')
                 return render_template('create_lesson.html', form=form, module_id=request.form.get('module_id'), course_id=request.form.get('course_id'))
     return render_template('create_lesson.html', form=form, module_id=request.form.get('module_id'), course_id=request.form.get('course_id'))

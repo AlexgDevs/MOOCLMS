@@ -169,7 +169,7 @@ async def edit_course(course_id):
         new_course_data = {
             'name': request.form.get('name'),
             'description': request.form.get('description'),
-            'price': int(request.form.get('price')),
+            'price': int(request.form.get('price')) if request.form.get('price') else None,
             'category': request.form.get('category'),
             'cover_url': request.form.get('cover_url'),
             'type': request.form.get('type')

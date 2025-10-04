@@ -21,10 +21,11 @@ async def create_module_page(course_id):
     user = AauthClient.get_current_user()
     async with ClientSession(API_URL) as session:
         async with session.get(f'/courses/{course_id}/{user.get('id')}') as response:
-            course = await response.json()
-            if course.get('creator_id') == user.get('id'):
-                return render_template('create_module.html', course_id=course_id, form=form)
-            return 'nezya', 403
+            if response.status == 200:
+                course = await response.json()
+                return course
+
+        return render_template('create_module.html', course_id=course_id, form=form)
 
 
 @app.post('/create/module')
