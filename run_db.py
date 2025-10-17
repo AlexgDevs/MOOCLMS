@@ -3,7 +3,7 @@ from server import db_manager
 from server.db import Course
 
 async def main():
-    await db_manager.migrate()
+    await db_manager.up()
 
 if __name__ == '__main__':
     run(main())
