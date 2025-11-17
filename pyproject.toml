@@ -29,7 +29,8 @@ dependencies = [
     "pyngrok (>=7.4.0,<8.0.0)",
     "argon2-cffi (>=25.1.0,<26.0.0)",
     "mysql (>=0.0.3,<0.0.4)",
-    "aiomysql (>=0.3.2,<0.4.0)"
+    "aiomysql (>=0.3.2,<0.4.0)",
+    "cryptography (>=46.0.3,<47.0.0)"
 ]
 
 
