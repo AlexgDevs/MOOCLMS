@@ -52,7 +52,7 @@ async def detail_module_info(
     return module
 
 
-@module_app.post('/',
+@module_app.post('',
                 status_code=status.HTTP_201_CREATED,
                 summary='create module',
                 description='endpoint for creating module for course')

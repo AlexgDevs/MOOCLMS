@@ -44,7 +44,7 @@ async def all_lesson_info(
     return lesson
 
 
-@lesson_app.post('/',
+@lesson_app.post('',
                 status_code=status.HTTP_201_CREATED,
                 summary='create lesson',
                 description='endpoint for creating lesson for module')
