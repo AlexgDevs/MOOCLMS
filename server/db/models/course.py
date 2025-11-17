@@ -19,10 +19,10 @@ class Course(Base):
     __tablename__='courses'
     name: Mapped[str] = mapped_column(String(255))
     description: Mapped[str] = mapped_column(String(1024))
-    type: Mapped[Literal['free', 'premium']]
+    type: Mapped[Literal['free', 'premium']] = mapped_column(String(50))
     price: Mapped[int] = mapped_column(default=0)
-    cover_url: Mapped[str]
-    category: Mapped[str] = mapped_column(default=None, nullable=True)
+    cover_url: Mapped[str] = mapped_column(String(512))
+    category: Mapped[str] = mapped_column(String(255), default=None, nullable=True)
 
     creator_id: Mapped[int] = mapped_column(ForeignKey('users.id'))
     creator: Mapped['User'] = relationship('User', back_populates='created_courses', uselist=False)
