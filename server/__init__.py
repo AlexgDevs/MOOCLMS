@@ -1,4 +1,6 @@
+from os import getenv
 from fastapi import FastAPI
+from dotenv import load_dotenv
 from fastapi.middleware.cors import CORSMiddleware
 from .db import db_manager
 from .routers import (
@@ -10,13 +12,15 @@ from .routers import (
     payment_app
 )
 
+load_dotenv()
+
 API_URL = 'http://localhost:8000'
 
 app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5000"],
+    allow_origins=[getenv('CLIENT_URL')],
     allow_credentials=True,  
     allow_methods=["*"],
     allow_headers=["*"],
