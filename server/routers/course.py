@@ -174,7 +174,7 @@ async def detail_course_info(
         await CustomExeptions.course_not_found()
 
 
-@course_app.post('/',
+@course_app.post('',
                 status_code=status.HTTP_201_CREATED,
                 summary='create course',
                 description='endpoint for creating courses')
