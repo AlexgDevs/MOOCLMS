@@ -14,6 +14,11 @@ from sqlalchemy.ext.asyncio import (
 
 load_dotenv()
 
+from pathlib import Path
+BASE_DIR = Path(__file__).resolve().parent.parent
+DB_PATH = BASE_DIR / "mooc.db"
+DB_URL = getenv("DB_URL", f"sqlite+aiosqlite:///{DB_PATH}")
+
 
 class Base(DeclarativeBase):
     id: Mapped[int] = mapped_column(primary_key=True)
@@ -60,7 +65,7 @@ class DBManager():
 
 
 db_manager = DBManager(
-    db_url=getenv('DB_URL'),
+    db_url=DB_URL,
     echo=True
 )
 
