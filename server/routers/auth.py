@@ -18,7 +18,7 @@ from ..db import db_manager, User
 from ..utils import JWTConfig, CustomExeptions
 
 auth_app = APIRouter(prefix='/auth', tags=['Auth'])
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+pwd_context = CryptContext(schemes=["argon2"], deprecated="auto")
 
 
 @auth_app.post('/register',
